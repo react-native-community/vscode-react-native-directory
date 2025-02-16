@@ -1,0 +1,9 @@
+# switch to allow-list, ignore everything
+**
+
+# only include these files
+!assets/icon.png
+!build/**
+!LICENSE.md
+!package.json
+!README.md

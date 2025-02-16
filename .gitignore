@@ -1,0 +1,9 @@
+build
+node_modules
+
+# VS Code
+*.vsix
+
+# IDEA
+.idea
+*.iml

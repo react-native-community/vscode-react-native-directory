@@ -1,0 +1,52 @@
+{
+  "name": "vscode-react-native-directory",
+  "displayName": "React Native Directory",
+  "description": "Find and install right packages for all of your React Native apps right from VS Code.",
+  "publisher": "react-native-community",
+  "categories": ["Other"],
+  "keywords": ["react", "react-native", "directory", "search"],
+  "license": "MIT",
+  "repository": "github:react-native-community/vscode-react-native-directory",
+  "homepage": "https://github.com/react-native-community/vscode-react-native-directory",
+  "bugs": {
+    "url": "https://github.com/react-native-community/vscode-react-native-directory/issues"
+  },
+  "icon": "./assets/icon.png",
+  "activationEvents": ["onCommand:extension.showQuickPick"],
+  "main": "./build/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.showQuickPick",
+        "title": "React Native Directory: Search packages"
+      }
+    ]
+  },
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.97.0"
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "lint": "eslint .",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "preferred-pm": "^4.1.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "@types/node": "^22.13.4",
+    "@types/vscode": "^1.97.0",
+    "@vscode/vsce": "^3.2.2",
+    "eslint": "^9.20.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "globals": "^15.15.0",
+    "jiti": "^2.4.2",
+    "prettier": "^3.5.1",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.0"
+  }
+}
