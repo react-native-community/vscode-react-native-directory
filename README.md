@@ -1,8 +1,10 @@
 <dd align="center"><img alt="React Native Directory Logo" height="96" src="./assets/icon.png" /></dd>
 <h1 align="center">vscode-react-native-directory</h1>
 
-A VS Code extension allowing to browse through React Native Directory and perform actions related to the chosen package
-inside build-in Command Palette.
+<p align="center">
+A VS Code extension allowing to browse through React Native Directory<br/>
+and perform actions related to the chosen package inside build-in Command Palette.
+</p>
 
 <p align="center">
 <img alt="Search mode" src="./assets/screenshot.png" width="500" align="center" />
@@ -13,11 +15,9 @@ inside build-in Command Palette.
 
 * Search through the packages registered in the React Native Directory.
 * Narrow down the results by using filter tokens, such as `:ios`, `:newArchitecture`, or `:hasTypes`.
-  * Valid tokens are a subset of all possible API query options, and the values can be seen [in this file](https://github.com/react-native-community/vscode-react-native-directory/blob/main/src/utils.ts#L33).
+  * Valid tokens are a subset of all possible API query options, and the values can be seen [in this file](/src/utils.ts#L30-L51).
 * Install the selected packages in the current workspace using your preferred package manager.
 * Dive deep into the stats and analysis with the provided metadata and links.
-
-## Preview
 
 ## 📦 Installation
 
@@ -32,8 +32,8 @@ inside build-in Command Palette.
    bun install && bun compile && bun package
    ```
 1. In VS Code:
-   * Navigate to the "Extensions" pane (<kbd>Ctrl/Cmd+Shift+X</kbd>).
-   * Click "More" button (three dots in the right corner of header) and select "Install from VSIX".
+   * Navigate to the **"Extensions"** pane (<kbd>Ctrl/Cmd+Shift+X</kbd>).
+   * Click **"More"** button (three dots in the right corner of header) and select **"Install from VSIX"**.
    * Select VSIX file which has been created in third step inside the checkout root directory.
 
 ## 📝 Contributing
@@ -47,5 +47,5 @@ inside build-in Command Palette.
    ```
 1. In VS Code:
    * Open folder containing the extension repository.
-   * Navigate to the "Run and Debug" pane (<kbd>Ctrl/Cmd+Shift+D</kbd>).
-   * Select "Run with extension" launch task and press "Start Debugging" button (<kbd>F5</kbd>).
+   * Navigate to the **"Run and Debug"** pane (<kbd>Ctrl/Cmd+Shift+D</kbd>).
+   * Select **"Run with extension"** launch task, and press **"Start Debugging"** button (<kbd>F5</kbd>).
