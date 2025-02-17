@@ -3,7 +3,16 @@ import * as vscode from 'vscode';
 import { QuickPickItemKind } from 'vscode';
 import preferredPM from 'preferred-pm';
 import { DirectoryEntry } from './types';
-import { ENTRY_OPTION, fetchData, getCommandToRun, STRINGS } from './utils';
+import {
+  ENTRY_OPTION,
+  fetchData,
+  getCommandToRun,
+  KEYWORD_REGEX,
+  numberFormatter,
+  STRINGS,
+  VALID_KEYWORDS_MAP,
+  ValidKeyword
+} from './utils';
 
 export async function activate(context: vscode.ExtensionContext) {
   const workspacePath = vscode.workspace.workspaceFolders?.[0].uri.fsPath ?? vscode.workspace.rootPath;
@@ -16,7 +25,7 @@ export async function activate(context: vscode.ExtensionContext) {
     const packagesPick = vscode.window.createQuickPick<DirectoryEntry>();
 
     packagesPick.placeholder = STRINGS.PLACEHOLDER_BUSY;
-    packagesPick.title = 'Search in React Native Directory';
+    packagesPick.title = STRINGS.DEFAULT_TITLE;
     packagesPick.matchOnDescription = false;
     packagesPick.matchOnDetail = false;
     packagesPick.busy = true;
@@ -29,13 +38,42 @@ export async function activate(context: vscode.ExtensionContext) {
 
     packagesPick.onDidChangeValue(async (value) => {
       packagesPick.busy = true;
-      packagesPick.title = 'Search in React Native Directory';
-      packagesPick.items = await fetchData(value);
+
+      if (value.includes(':')) {
+        const keywords = (value.match(KEYWORD_REGEX) ?? []).map((token) => token.slice(1));
+        const searchString = value.replace(KEYWORD_REGEX, '').trim();
+
+        const validKeywords = keywords
+          .map((keyword) => keyword.toLowerCase())
+          .filter((keyword): keyword is ValidKeyword => keyword in VALID_KEYWORDS_MAP)
+          .map((keyword) => VALID_KEYWORDS_MAP[keyword] as ValidKeyword);
+
+        if (validKeywords.length > 0) {
+          packagesPick.title = `Active filters: ${validKeywords.join(', ')}`;
+        } else {
+          packagesPick.title = STRINGS.DEFAULT_TITLE;
+        }
+        packagesPick.items = await fetchData(searchString, validKeywords);
+      } else {
+        packagesPick.items = await fetchData(value);
+      }
+
       packagesPick.busy = false;
     });
 
     packagesPick.onDidAccept(() => {
       const selectedEntry = packagesPick.selectedItems[0];
+
+      const examplesActions =
+        selectedEntry.examples && selectedEntry.examples.length > 0
+          ? [
+              { label: 'view examples', kind: QuickPickItemKind.Separator },
+              ...selectedEntry.examples.map((example, index) => ({
+                label: `Example #${index + 1}`,
+                description: example
+              }))
+            ]
+          : [];
 
       const possibleActions = [
         workspacePath && {
@@ -43,17 +81,29 @@ export async function activate(context: vscode.ExtensionContext) {
           description: `with ${preferredManager}${selectedEntry.dev ? ' as devDependency' : ''}`
         },
         { label: `open URLs`, kind: QuickPickItemKind.Separator },
+        {
+          label: ENTRY_OPTION.VISIT_REPO,
+          description: [
+            `$(star) ${numberFormatter.format(selectedEntry.github.stats.stars)}`,
+            `$(gist-fork) ${numberFormatter.format(selectedEntry.github.stats.forks)}`
+          ].join(' ')
+        },
+        {
+          label: ENTRY_OPTION.VISIT_NPM,
+          description: selectedEntry.npm?.downloads
+            ? `$(arrow-circle-down) ${numberFormatter.format(selectedEntry.npm.downloads)}`
+            : ''
+        },
         selectedEntry.github.urls.homepage && {
           label: ENTRY_OPTION.VISIT_HOMEPAGE,
           description: selectedEntry.github.urls.homepage
         },
-        { label: ENTRY_OPTION.VISIT_REPO },
-        { label: ENTRY_OPTION.VISIT_NPM },
-        { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
         selectedEntry.github.license && {
           label: ENTRY_OPTION.VIEW_LICENSE,
           description: selectedEntry.github.license.name
         },
+        { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
+        ...examplesActions,
         { label: 'copy data', kind: QuickPickItemKind.Separator },
         { label: ENTRY_OPTION.COPY_NAME },
         { label: ENTRY_OPTION.COPY_REPO_URL },

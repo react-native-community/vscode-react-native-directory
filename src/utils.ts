@@ -3,7 +3,8 @@ import axios from 'axios';
 
 import { DirectoryEntry, PackageData } from './types';
 
-const BASE_API_URL = 'https://reactnative.directory/api/libraries';
+export const BASE_API_URL = 'https://reactnative.directory/api/libraries';
+export const KEYWORD_REGEX = /:\w+/g;
 
 export const numberFormatter = new Intl.NumberFormat('en-EN', { notation: 'compact' });
 
@@ -21,9 +22,34 @@ export enum ENTRY_OPTION {
 }
 
 export enum STRINGS {
+  DEFAULT_TITLE = 'Search in React Native Directory',
   PLACEHOLDER_BUSY = 'Loading directory data...',
   PLACEHOLDER = 'Search for a package'
 }
+
+/**
+ * A subset of API query params mapped with normalized (lowercased) keyword values.
+ * @see https://github.com/react-native-community/directory/blob/main/types/index.ts#L14
+ */
+export const VALID_KEYWORDS_MAP = {
+  android: 'android',
+  expogo: 'expoGo',
+  ios: 'ios',
+  macos: 'macos',
+  fireos: 'fireos',
+  tvos: 'tvos',
+  visionos: 'visionos',
+  web: 'web',
+  windows: 'windows',
+  hasexample: 'hasExample',
+  hasimage: 'hasImage',
+  hastypes: 'hasTypes',
+  ismaintained: 'isMaintained',
+  ispopular: 'isPopular',
+  wasrecentlyupdated: 'wasRecentlyUpdated',
+  newarchitecture: 'newArchitecture'
+};
+export type ValidKeyword = keyof typeof VALID_KEYWORDS_MAP;
 
 function getDetailLabel(item: PackageData) {
   const platforms = [
@@ -42,8 +68,8 @@ function getDetailLabel(item: PackageData) {
     item.npm?.downloads && `$(arrow-circle-down) ${numberFormatter.format(item.npm.downloads)}`,
     '•',
     platforms.join(', '),
-    (item.newArchitecture || item.github.hasTypes) && '•',
-    item.newArchitecture && `$(verified) New Architecture`,
+    (item.newArchitecture || item.expoGo || item.github.hasTypes) && '•',
+    (item.newArchitecture || item.expoGo) && `$(verified) New Architecture`,
     item.github.hasTypes && `$(symbol-type-parameter) Types`
   ]
     .filter(Boolean)
@@ -61,13 +87,17 @@ export function getCommandToRun({ dev, npmPkg }: DirectoryEntry, preferredManage
   }
 }
 
-export async function fetchData(query?: string): Promise<DirectoryEntry[]> {
+export async function fetchData(query?: string, keywords?: ValidKeyword[]): Promise<DirectoryEntry[]> {
   try {
     const apiUrl = new URL(BASE_API_URL);
 
     if (query) {
       apiUrl.searchParams.append('search', encodeURIComponent(query));
       apiUrl.searchParams.append('order', 'downloads');
+    }
+
+    if (keywords) {
+      keywords.forEach((keyword) => apiUrl.searchParams.append(keyword, 'true'));
     }
 
     const { data } = await axios.get(apiUrl.href);

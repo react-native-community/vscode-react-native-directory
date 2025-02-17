@@ -1,11 +1,23 @@
 <dd align="center"><img alt="React Native Directory Logo" height="96" src="./assets/icon.png" /></dd>
 <h1 align="center">vscode-react-native-directory</h1>
 
-A VS Code extension allowing to browse through React Native Directory and perform actions on the packages inside build-in Command Palette.
+A VS Code extension allowing to browse through React Native Directory and perform actions related to the chosen package
+inside build-in Command Palette.
 
 <p align="center">
-<img alt="Extension preview" src="./assets/screenshot.png" width="520" align="center" />
+<img alt="Search mode" src="./assets/screenshot.png" width="500" align="center" />
+<img alt="Actions list" src="./assets/screenshot-actions.png" width="500" align="center" />
 </p>
+
+## ⚡️ Features
+
+* Search through the packages registered in the React Native Directory.
+* Narrow down the results by using filter tokens, such as `:ios`, `:newArchitecture`, or `:hasTypes`.
+  * Valid tokens are a subset of all possible API query options, and the values can be seen [in this file](https://github.com/react-native-community/vscode-react-native-directory/blob/main/src/utils.ts#L33).
+* Install the selected packages in the current workspace using your preferred package manager.
+* Dive deep into the stats and analysis with the provided metadata and links.
+
+## Preview
 
 ## 📦 Installation
 

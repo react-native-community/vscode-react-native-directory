@@ -3,7 +3,8 @@ import { type QuickPickItem } from 'vscode';
 export type DirectoryEntry = QuickPickItem & PackageData;
 
 /**
- * Mirror of https://github.com/react-native-community/directory/blob/main/types/index.ts#L41
+ * Mirror of React Native Directory library type.
+ * @see https://github.com/react-native-community/directory/blob/main/types/index.ts#L41
  */
 export type PackageData = {
   githubUrl: string;
