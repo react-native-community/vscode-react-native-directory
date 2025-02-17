@@ -2,8 +2,8 @@
 <h1 align="center">vscode-react-native-directory</h1>
 
 <p align="center">
-A VS Code extension allowing to browse through React Native Directory<br/>
-and perform actions related to the chosen package inside build-in Command Palette.
+A VS Code extension allowing to browse through <a href="https://reactnative.directory/">React Native Directory</a><br/>
+and perform actions related to the chosen package inside build-in editor Command Palette.
 </p>
 
 <p align="center">
