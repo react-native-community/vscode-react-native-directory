@@ -1,21 +1,31 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
 
-import { DirectoryEntry, Library } from './types';
+import { DirectoryEntry, PackageData } from './types';
+
+const BASE_API_URL = 'https://reactnative.directory/api/libraries';
 
 export const numberFormatter = new Intl.NumberFormat('en-EN', { notation: 'compact' });
 
 export enum ENTRY_OPTION {
   INSTALL = 'Install package in the current workspace',
+  VISIT_HOMEPAGE = 'Visit homepage',
   VISIT_REPO = 'Visit GitHub repository',
   VISIT_NPM = 'Visit npm registry entry',
+  VIEW_BUNDLEPHOBIA = 'View BundlePhobia analysis',
+  VIEW_LICENSE = 'View license details',
   COPY_NAME = 'Copy package name',
   COPY_REPO_URL = 'Copy GitHub repository URL',
   COPY_NPM_URL = 'Copy npm registry URL',
   GO_BACK = '$(newline) Go back to search'
 }
 
-function getDetailLabel(item: Library) {
+export enum STRINGS {
+  PLACEHOLDER_BUSY = 'Loading directory data...',
+  PLACEHOLDER = 'Search for a package'
+}
+
+function getDetailLabel(item: PackageData) {
   const platforms = [
     item.android ? 'Android' : null,
     item.ios ? 'iOS' : null,
@@ -40,16 +50,30 @@ function getDetailLabel(item: Library) {
     .join(' ');
 }
 
+export function getCommandToRun({ dev, npmPkg }: DirectoryEntry, preferredManager: string): string {
+  switch (preferredManager) {
+    case 'bun':
+    case 'pnpm':
+    case 'yarn':
+      return `${preferredManager} add${dev ? ' -D' : ''} ${npmPkg}`;
+    default:
+      return `${preferredManager} install${dev ? ' -D' : ''} ${npmPkg}`;
+  }
+}
+
 export async function fetchData(query?: string): Promise<DirectoryEntry[]> {
   try {
-    const url = query
-      ? `https://reactnative.directory/api/libraries?search=${encodeURIComponent(query)}&order=downloads`
-      : `https://reactnative.directory/api/libraries`;
+    const apiUrl = new URL(BASE_API_URL);
 
-    const { data } = await axios.get(url);
+    if (query) {
+      apiUrl.searchParams.append('search', encodeURIComponent(query));
+      apiUrl.searchParams.append('order', 'downloads');
+    }
+
+    const { data } = await axios.get(apiUrl.href);
 
     if ('libraries' in data && Array.isArray(data.libraries)) {
-      return data.libraries.map((item: Library) => ({
+      return data.libraries.map((item: PackageData) => ({
         label: item.npmPkg,
         description: item.github.description,
         detail: getDetailLabel(item),

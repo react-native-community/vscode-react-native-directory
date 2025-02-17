@@ -1,11 +1,12 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "configurations": [
     {
       "name": "Run with extension",
       "type": "extensionHost",
       "request": "launch",
       "runtimeExecutable": "${execPath}",
+      "preLaunchTask": "compile",
       "args": [
         "${workspaceFolder}",
         "--extensionDevelopmentPath=${workspaceFolder}"

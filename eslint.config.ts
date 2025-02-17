@@ -1,16 +1,16 @@
-import eslint from '@eslint/js';
+import js from '@eslint/js';
 import type { Linter } from 'eslint';
-import pluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
-import pluginTS from 'typescript-eslint';
+import ts from 'typescript-eslint';
 
 const config: Linter.Config[] = [
   {
     ignores: ['**/build', '**/node_modules']
   },
-  eslint.configs.recommended,
-  ...(pluginTS.configs.recommended as Linter.Config[]),
-  pluginPrettierRecommended,
+  js.configs.recommended,
+  ...(ts.configs.recommended as Linter.Config[]),
+  prettierRecommended,
   {
     languageOptions: {
       globals: globals.node

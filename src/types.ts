@@ -1,11 +1,11 @@
 import { type QuickPickItem } from 'vscode';
 
-export type DirectoryEntry = QuickPickItem & Library;
+export type DirectoryEntry = QuickPickItem & PackageData;
 
 /**
  * Mirror of https://github.com/react-native-community/directory/blob/main/types/index.ts#L41
  */
-export type Library = {
+export type PackageData = {
   githubUrl: string;
   ios?: boolean;
   android?: boolean;

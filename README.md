@@ -10,7 +10,7 @@ A VS Code extension allowing to browse through React Native Directory and perfor
 ## 📦 Installation
 
 > [!tip]
-> The extension is currently in the development phase, and only manual build and installation is supported at this time.
+> The extension is currently in the development phase, only manual build and installation is supported at this time.
 
 1. Make sure you have [Bun](https://bun.sh/docs/installation) installed.
 1. Checkout the repository locally.
@@ -31,7 +31,7 @@ A VS Code extension allowing to browse through React Native Directory and perfor
 1. Run the following commands to install dependencies and compile source:
    
    ```sh
-   bun install && bun compile
+   bun install
    ```
 1. In VS Code:
    * Open folder containing the extension repository.
