@@ -2,8 +2,8 @@
 <h1 align="center">vscode-react-native-directory</h1>
 
 <p align="center">
-A VS Code extension allowing to browse through <a href="https://reactnative.directory/">React Native Directory</a><br/>
-and perform actions related to the chosen package inside build-in editor Command Palette.
+A VS Code extension that allows browsing through the <a href="https://reactnative.directory/">React Native Directory</a><br/>
+and performing actions related to the chosen package inside the built-in editor Command Palette.
 </p>
 
 <p align="center">
@@ -26,15 +26,15 @@ and perform actions related to the chosen package inside build-in editor Command
 
 1. Make sure you have [Bun](https://bun.sh/docs/installation) installed.
 1. Checkout the repository locally.
-1. Run the following commands to install dependencies, compile source and prepare extension package file:
-   
+1. Run the following commands to install dependencies, compile the source, and prepare the extension package file:
+
    ```sh
    bun install && bun compile && bun package
    ```
 1. In VS Code:
    * Navigate to the **"Extensions"** pane (<kbd>Ctrl/Cmd+Shift+X</kbd>).
    * Click **"More"** button (three dots in the right corner of header) and select **"Install from VSIX"**.
-   * Select VSIX file which has been created in third step inside the checkout root directory.
+   * Select the VSIX file that was created in third step inside the checkout root directory.
 
 ## 📝 Contributing
 
