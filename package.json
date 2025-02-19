@@ -29,7 +29,8 @@
   "scripts": {
     "compile": "rimraf build && tsc -p .",
     "lint": "eslint .",
-    "package": "vsce package"
+    "package": "vsce package",
+    "release:dry-run": "bun --env-file=.env semantic-release --dry-run"
   },
   "dependencies": {
     "axios": "^1.7.9",
@@ -37,17 +38,22 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "@types/node": "^22.13.4",
     "@types/vscode": "^1.97.0",
     "@vscode/vsce": "^3.2.2",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
     "eslint": "^9.20.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
     "globals": "^15.15.0",
     "jiti": "^2.4.2",
+    "ovsx": "^0.10.1",
     "prettier": "^3.5.1",
     "rimraf": "6.0.1",
+    "semantic-release": "^24.2.3",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.24.0"
+    "typescript-eslint": "^8.24.1"
   }
 }
