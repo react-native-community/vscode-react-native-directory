@@ -3,8 +3,15 @@
   "displayName": "React Native Directory",
   "description": "Find and install right packages for all of your React Native apps right from VS Code.",
   "publisher": "react-native-directory",
-  "categories": ["Other"],
-  "keywords": ["react", "react-native", "directory", "search"],
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "react",
+    "react-native",
+    "directory",
+    "search"
+  ],
   "license": "MIT",
   "repository": "github:react-native-community/vscode-react-native-directory",
   "homepage": "https://github.com/react-native-community/vscode-react-native-directory",
@@ -12,7 +19,9 @@
     "url": "https://github.com/react-native-community/vscode-react-native-directory/issues"
   },
   "icon": "./assets/icon.png",
-  "activationEvents": ["onCommand:extension.showQuickPick"],
+  "activationEvents": [
+    "onCommand:extension.showQuickPick"
+  ],
   "main": "./build/extension.js",
   "contributes": {
     "commands": [
@@ -22,7 +31,7 @@
       }
     ]
   },
-  "version": "0.1.0",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.97.0"
   },
