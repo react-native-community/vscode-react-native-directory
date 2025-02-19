@@ -1,0 +1,78 @@
+name: publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  github-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: 📦 Install dependencies
+        run: bun install
+
+      - name: 🔨 Compile sources
+        run: bun compile
+
+      - name: 🎁 Package extension
+        run: bun vsce package
+
+      - name: 📋 Add package to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: vscode-react-native-directory-*.vsix
+          tag_name: ${{ github.ref_name }}
+
+  vscode-marketplace:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: 📦 Install dependencies
+        run: bun install
+
+      - name: 🔨 Compile sources
+        run: bun compile
+
+      - name: 🎁 Package extension
+        run: bun vsce package
+
+      - name: 🚀 Publish to Visual Studio Marketplace
+        run: bun vsce publish
+        env:
+          VSCE_PAT: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
+
+  open-vsx:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: 📦 Install dependencies
+        run: bun install
+
+      - name: 🔨 Compile sources
+        run: bun compile
+
+      - name: 🎁 Package extension
+        run: bun vsce package --out ./vscode-react-native-directory.vsix
+
+      - name: 🚀 Publish to Open VSX
+        run: bun ovsx publish ./vscode-react-native-directory.vsix
+        env:
+          OVSX_PAT: ${{ secrets.OPENVSX_TOKEN }}

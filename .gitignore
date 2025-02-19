@@ -1,6 +1,9 @@
 build
 node_modules
 
+# Local ENV
+.env
+
 # VS Code
 *.vsix
 
