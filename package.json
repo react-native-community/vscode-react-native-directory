@@ -22,7 +22,7 @@
   "activationEvents": [
     "onCommand:extension.showQuickPick"
   ],
-  "main": "./build/extension.js",
+  "main": "./build/index.js",
   "contributes": {
     "commands": [
       {
@@ -36,13 +36,12 @@
     "vscode": "^1.97.0"
   },
   "scripts": {
-    "compile": "rimraf build && tsc -p .",
-    "lint": "eslint .",
-    "package": "vsce package",
+    "compile": "rimraf build && ncc build src/extension.ts -o build -m",
+    "lint": "tsc --noEmit && eslint .",
+    "package": "vsce package --no-dependencies",
     "release:dry-run": "bun --env-file=.env semantic-release --dry-run"
   },
   "dependencies": {
-    "axios": "^1.7.9",
     "preferred-pm": "^4.1.1"
   },
   "devDependencies": {
@@ -51,6 +50,7 @@
     "@semantic-release/git": "^10.0.1",
     "@types/node": "^22.13.4",
     "@types/vscode": "^1.97.0",
+    "@vercel/ncc": "^0.38.3",
     "@vscode/vsce": "^3.2.2",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "eslint": "^9.20.1",

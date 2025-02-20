@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "rootDir": "./src",
-    "outDir": "./build",
     "module": "commonjs",
     "target": "es2021",
     "lib": ["es2021"],
