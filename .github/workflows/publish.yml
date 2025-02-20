@@ -3,6 +3,11 @@ name: publish
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Type "publish" to publish the latest release (only use if automatic trigger has failed)!'
+        required: false
 
 jobs:
   github-release:
