@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import axios from 'axios';
 
 import { DirectoryEntry, PackageData } from './types';
 
@@ -100,20 +99,25 @@ export async function fetchData(query?: string, keywords?: ValidKeyword[]): Prom
       keywords.forEach((keyword) => apiUrl.searchParams.append(keyword, 'true'));
     }
 
-    const { data } = await axios.get(apiUrl.href);
+    const response = await fetch(apiUrl.href);
 
-    if ('libraries' in data && Array.isArray(data.libraries)) {
-      return data.libraries.map((item: PackageData) => ({
-        label: item.npmPkg,
-        description: item.github.description,
-        detail: getDetailLabel(item),
-        alwaysShow: true,
-        ...item
-      }));
-    } else {
-      vscode.window.showErrorMessage('Invalid React Native Directory API response');
+    if (response.ok) {
+      const data = (await response.json()) as object;
+
+      if ('libraries' in data && Array.isArray(data.libraries)) {
+        return data.libraries.map((item: PackageData) => ({
+          label: item.npmPkg,
+          description: item.github.description,
+          detail: getDetailLabel(item),
+          alwaysShow: true,
+          ...item
+        }));
+      }
+      vscode.window.showErrorMessage(`Invalid React Native Directory API response content`);
       return [];
     }
+    vscode.window.showErrorMessage(`Invalid React Native Directory API response: ${response.status}`);
+    return [];
   } catch (error) {
     console.error(error);
     vscode.window.showErrorMessage('Failed to fetch data from React Native Directory API');

@@ -34,7 +34,7 @@ jobs:
       - name: 📋 Dry-running release
         run: bun semantic-release --dry-run
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
 
   create:
     if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.release == 'release' }}

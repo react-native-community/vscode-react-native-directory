@@ -52,7 +52,7 @@ jobs:
         run: bun compile
 
       - name: 🎁 Package extension
-        run: bun vsce package
+        run: bun vsce package --no-dependencies
 
       - name: 🚀 Publish to Visual Studio Marketplace
         run: bun vsce publish
@@ -75,7 +75,7 @@ jobs:
         run: bun compile
 
       - name: 🎁 Package extension
-        run: bun vsce package --out ./vscode-react-native-directory.vsix
+        run: bun vsce package --no-dependencies --out ./vscode-react-native-directory.vsix
 
       - name: 🚀 Publish to Open VSX
         run: bun ovsx publish ./vscode-react-native-directory.vsix
