@@ -2,6 +2,21 @@
 <h1 align="center">vscode-react-native-directory</h1>
 
 <p align="center">
+  <a aria-label="Latest release" href="https://github.com/react-native-community/vscode-react-native-directory/releases" target="_blank">
+    <img alt="Latest release" src="https://img.shields.io/github/package-json/v/react-native-community/vscode-react-native-directory?style=flat-square&color=0366D6&labelColor=49505A" />
+  </a>
+  <a aria-label="Workflow status" href="https://github.com/react-native-community/vscode-react-native-directory/actions" target="_blank">
+    <img alt="Workflow status" src="https://img.shields.io/github/actions/workflow/status/react-native-community/vscode-react-native-directory/verify.yml?branch=main&style=flat-square&labelColor=49505A" />
+  </a>
+  <a aria-label="Install from VS Code Marketplace" href="https://marketplace.visualstudio.com/items?itemName=react-native-directory.vscode-react-native-directory" target="_blank">
+    <img alt="Install from VS Code Marketplace" src="https://img.shields.io/badge/vscode-marketplace-25292E?style=flat-square&label=%20&logoColor=BCC3CD&labelColor=49505A&logo=Visual%20Studio" />
+  </a>
+  <a aria-label="Install from Open VSX" href="https://open-vsx.org/extension/react-native-directory/vscode-react-native-directory" target="_blank">
+    <img alt="Install from Open VSX" src="https://img.shields.io/badge/vscode-open%20vsx-25292E?style=flat-square&label=%20&logoColor=BCC3CD&labelColor=49505A&logo=Eclipse%20IDE" />
+  </a>
+</p>
+
+<p align="center">
 A VS Code extension that allows browsing through the <a href="https://reactnative.directory/">React Native Directory</a><br/>
 and performing actions related to the chosen package inside the built-in editor Command Palette.
 </p>
@@ -21,20 +36,17 @@ and performing actions related to the chosen package inside the built-in editor 
 
 ## 📦 Installation
 
-> [!tip]
-> The extension is currently in the development phase, only manual build and installation is supported at this time.
+#### VS Marketplace
+1. Go to [VS Marketplace](https://marketplace.visualstudio.com/items?itemName=react-native-directory.vscode-react-native-directory).
+1. Click on the **"Install"** button.
 
-1. Make sure you have [Bun](https://bun.sh/docs/installation) installed.
-1. Checkout the repository locally.
-1. Run the following commands to install dependencies, compile the source, and prepare the extension package file:
-
-   ```sh
-   bun install && bun compile && bun package
-   ```
+#### Open VSX Registry
+1. Go to [Open VSX Registry](https://open-vsx.org/extension/react-native-directory/vscode-react-native-directory).
+1. Click on the **"Download"** button
 1. In VS Code:
    * Navigate to the **"Extensions"** pane (<kbd>Ctrl/Cmd+Shift+X</kbd>).
    * Click **"More"** button (three dots in the right corner of header) and select **"Install from VSIX"**.
-   * Select the VSIX file that was created in third step inside the checkout root directory.
+   * Select the VSIX file downloaded earlier in the process.
 
 ## 📝 Contributing
 
