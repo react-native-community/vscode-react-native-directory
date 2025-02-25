@@ -33,7 +33,7 @@
   },
   "version": "1.0.1",
   "engines": {
-    "vscode": "^1.97.0"
+    "vscode": "^1.94.0"
   },
   "scripts": {
     "compile": "rimraf build && ncc build src/extension.ts -o build -m",
