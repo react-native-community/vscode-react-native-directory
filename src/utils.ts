@@ -91,7 +91,7 @@ export async function fetchData(query?: string, keywords?: ValidKeyword[]): Prom
     const apiUrl = new URL(BASE_API_URL);
 
     if (query) {
-      apiUrl.searchParams.append('search', encodeURIComponent(query));
+      apiUrl.searchParams.append('search', query);
       apiUrl.searchParams.append('order', 'downloads');
     }
 
