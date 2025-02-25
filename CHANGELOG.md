@@ -1,3 +1,14 @@
+## [1.0.2](https://github.com/react-native-community/vscode-react-native-directory/compare/1.0.1...1.0.2) (2025-02-25)
+
+### Bug fixes
+
+* remove unnecessary search query encode ([ac4cd4d](https://github.com/react-native-community/vscode-react-native-directory/commit/ac4cd4dc25fa2bd043e106561bf05bb3c918e8ad))
+
+### Other changes
+
+* loosen required VS Code version ([201bcf2](https://github.com/react-native-community/vscode-react-native-directory/commit/201bcf2bc06a39f946c782b4fcdcddb15a6b089f))
+* update development dependencies ([bf91525](https://github.com/react-native-community/vscode-react-native-directory/commit/bf915255d23e7469e329b1742e2b1fd48620c302))
+
 ## [1.0.1](https://github.com/react-native-community/vscode-react-native-directory/compare/1.0.0...1.0.1) (2025-02-20)
 
 ### Bug fixes
