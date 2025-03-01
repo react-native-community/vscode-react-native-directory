@@ -1,3 +1,13 @@
+## [1.0.3](https://github.com/react-native-community/vscode-react-native-directory/compare/1.0.2...1.0.3) (2025-03-01)
+
+### Code refactors
+
+* switch to esbuild, reduce extension file size ([155e17e](https://github.com/react-native-community/vscode-react-native-directory/commit/155e17e33af0acbaeff0a0a741c00dd32d697d35))
+
+### Other changes
+
+* add Watchers count to the GitHub link entry ([c915ca3](https://github.com/react-native-community/vscode-react-native-directory/commit/c915ca3c409d3e233708b8d79d6bb897da8da778))
+
 ## [1.0.2](https://github.com/react-native-community/vscode-react-native-directory/compare/1.0.1...1.0.2) (2025-02-25)
 
 ### Bug fixes
