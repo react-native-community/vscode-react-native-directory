@@ -36,13 +36,10 @@
     "vscode": "^1.94.0"
   },
   "scripts": {
-    "compile": "rimraf build && ncc build src/extension.ts -o build -m",
+    "compile": "rimraf build && esbuild ./src/extension.ts --bundle --outfile=build/index.js --external:vscode --format=cjs --platform=node --minify",
     "lint": "tsc --noEmit && eslint .",
     "package": "vsce package --no-dependencies",
     "release:dry-run": "bun --env-file=.env semantic-release --dry-run"
-  },
-  "dependencies": {
-    "preferred-pm": "^4.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -53,6 +50,7 @@
     "@vercel/ncc": "^0.38.3",
     "@vscode/vsce": "^3.2.2",
     "conventional-changelog-conventionalcommits": "^8.0.0",
+    "esbuild": "^0.25.0",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",

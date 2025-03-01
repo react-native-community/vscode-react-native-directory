@@ -1,7 +1,7 @@
 import { exec } from 'node:child_process';
-import * as vscode from 'vscode';
-import { QuickPickItemKind } from 'vscode';
-import preferredPM from 'preferred-pm';
+import { workspace, commands, window, type ExtensionContext, QuickPickItemKind, env, Uri } from 'vscode';
+
+import { detectPackageManager } from './detectPackageManager';
 import { DirectoryEntry } from './types';
 import {
   ENTRY_OPTION,
@@ -14,15 +14,17 @@ import {
   ValidKeyword
 } from './utils';
 
-export async function activate(context: vscode.ExtensionContext) {
-  const workspacePath = vscode.workspace.workspaceFolders?.[0].uri.fsPath ?? vscode.workspace.rootPath;
-  const manager = vscode.workspace.getConfiguration('npm').get<string>('packageManager', 'npm');
+export async function activate(context: ExtensionContext) {
+  const workspacePath = workspace.workspaceFolders?.[0].uri.fsPath ?? workspace.rootPath;
+  const manager = workspace.getConfiguration('npm').get<string>('packageManager', 'npm');
 
   const shouldCheckPreferred = workspacePath && (!manager || manager === 'auto');
-  const preferredManager = shouldCheckPreferred ? ((await preferredPM(workspacePath))?.name ?? 'npm') : manager;
+  const preferredManager = shouldCheckPreferred
+    ? ((await detectPackageManager({ cwd: workspacePath })) ?? 'npm')
+    : manager;
 
-  const disposable = vscode.commands.registerCommand('extension.showQuickPick', async () => {
-    const packagesPick = vscode.window.createQuickPick<DirectoryEntry>();
+  const disposable = commands.registerCommand('extension.showQuickPick', async () => {
+    const packagesPick = window.createQuickPick<DirectoryEntry>();
 
     packagesPick.placeholder = STRINGS.PLACEHOLDER_BUSY;
     packagesPick.title = STRINGS.DEFAULT_TITLE;
@@ -112,7 +114,7 @@ export async function activate(context: vscode.ExtensionContext) {
         { label: ENTRY_OPTION.GO_BACK }
       ].filter((option) => !!option && typeof option === 'object');
 
-      const optionPick = vscode.window.createQuickPick();
+      const optionPick = window.createQuickPick();
       optionPick.title = `Actions for "${selectedEntry.label}"`;
       optionPick.placeholder = 'Select an action';
       optionPick.items = possibleActions;
@@ -125,12 +127,12 @@ export async function activate(context: vscode.ExtensionContext) {
           case ENTRY_OPTION.INSTALL: {
             exec(getCommandToRun(selectedEntry, preferredManager), { cwd: workspacePath }, (error, stout) => {
               if (error) {
-                vscode.window.showErrorMessage(
+                window.showErrorMessage(
                   `An error occurred while trying to install the \`${selectedEntry.npmPkg}\` package: ${error.message}`
                 );
                 return;
               }
-              vscode.window.showInformationMessage(
+              window.showInformationMessage(
                 `\`${selectedEntry.npmPkg}\` package has been installed${selectedEntry.dev ? ' as `devDependency`' : ''} in current workspace using \`${preferredManager}\`: ${stout}`
               );
               optionPick.hide();
@@ -138,38 +140,38 @@ export async function activate(context: vscode.ExtensionContext) {
             break;
           }
           case ENTRY_OPTION.VISIT_HOMEPAGE: {
-            vscode.env.openExternal(vscode.Uri.parse(selectedEntry.github.urls.homepage!));
+            env.openExternal(Uri.parse(selectedEntry.github.urls.homepage!));
             break;
           }
           case ENTRY_OPTION.VISIT_REPO: {
-            vscode.env.openExternal(vscode.Uri.parse(selectedEntry.githubUrl));
+            env.openExternal(Uri.parse(selectedEntry.githubUrl));
             break;
           }
           case ENTRY_OPTION.VISIT_NPM: {
-            vscode.env.openExternal(vscode.Uri.parse(`https://www.npmjs.com/package/${selectedEntry.npmPkg}`));
+            env.openExternal(Uri.parse(`https://www.npmjs.com/package/${selectedEntry.npmPkg}`));
             break;
           }
           case ENTRY_OPTION.VIEW_BUNDLEPHOBIA: {
-            vscode.env.openExternal(vscode.Uri.parse(`https://bundlephobia.com/package/${selectedEntry.npmPkg}`));
+            env.openExternal(Uri.parse(`https://bundlephobia.com/package/${selectedEntry.npmPkg}`));
             break;
           }
           case ENTRY_OPTION.VIEW_LICENSE: {
-            vscode.env.openExternal(vscode.Uri.parse(selectedEntry.github.license.url));
+            env.openExternal(Uri.parse(selectedEntry.github.license.url));
             break;
           }
           case ENTRY_OPTION.COPY_NAME: {
-            vscode.env.clipboard.writeText(selectedEntry.npmPkg);
-            vscode.window.showInformationMessage('Package name copied to clipboard');
+            env.clipboard.writeText(selectedEntry.npmPkg);
+            window.showInformationMessage('Package name copied to clipboard');
             break;
           }
           case ENTRY_OPTION.COPY_REPO_URL: {
-            vscode.env.clipboard.writeText(selectedEntry.githubUrl);
-            vscode.window.showInformationMessage('Repository URL copied to clipboard');
+            env.clipboard.writeText(selectedEntry.githubUrl);
+            window.showInformationMessage('Repository URL copied to clipboard');
             break;
           }
           case ENTRY_OPTION.COPY_NPM_URL: {
-            vscode.env.clipboard.writeText(`https://www.npmjs.com/package/${selectedEntry.npmPkg}`);
-            vscode.window.showInformationMessage('npm registry URL copied to clipboard');
+            env.clipboard.writeText(`https://www.npmjs.com/package/${selectedEntry.npmPkg}`);
+            window.showInformationMessage('npm registry URL copied to clipboard');
             break;
           }
           case ENTRY_OPTION.GO_BACK: {

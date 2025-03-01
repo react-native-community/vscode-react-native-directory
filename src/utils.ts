@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import { window } from 'vscode';
 
 import { DirectoryEntry, PackageData } from './types';
 
@@ -113,14 +113,14 @@ export async function fetchData(query?: string, keywords?: ValidKeyword[]): Prom
           ...item
         }));
       }
-      vscode.window.showErrorMessage(`Invalid React Native Directory API response content`);
+      window.showErrorMessage(`Invalid React Native Directory API response content`);
       return [];
     }
-    vscode.window.showErrorMessage(`Invalid React Native Directory API response: ${response.status}`);
+    window.showErrorMessage(`Invalid React Native Directory API response: ${response.status}`);
     return [];
   } catch (error) {
     console.error(error);
-    vscode.window.showErrorMessage('Failed to fetch data from React Native Directory API');
+    window.showErrorMessage('Failed to fetch data from React Native Directory API');
     return [];
   }
 }
