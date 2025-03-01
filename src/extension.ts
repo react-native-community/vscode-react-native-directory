@@ -87,7 +87,8 @@ export async function activate(context: ExtensionContext) {
           label: ENTRY_OPTION.VISIT_REPO,
           description: [
             `$(star) ${numberFormatter.format(selectedEntry.github.stats.stars)}`,
-            `$(gist-fork) ${numberFormatter.format(selectedEntry.github.stats.forks)}`
+            `$(gist-fork) ${numberFormatter.format(selectedEntry.github.stats.forks)}`,
+            `$(eye) ${numberFormatter.format(selectedEntry.github.stats.subscribers)}`
           ].join(' ')
         },
         {
