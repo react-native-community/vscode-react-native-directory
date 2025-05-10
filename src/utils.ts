@@ -1,4 +1,4 @@
-import { window } from 'vscode';
+import { QuickPick, window } from 'vscode';
 
 import { DirectoryEntry, PackageData } from './types';
 
@@ -17,7 +17,9 @@ export enum ENTRY_OPTION {
   COPY_NAME = 'Copy package name',
   COPY_REPO_URL = 'Copy GitHub repository URL',
   COPY_NPM_URL = 'Copy npm registry URL',
-  GO_BACK = '$(newline) Go back to search'
+  GO_BACK = '$(newline) Go back to search',
+  PLATFORMS = 'Platforms',
+  COMPATIBILITY = 'Compatibility'
 }
 
 export enum STRINGS {
@@ -51,22 +53,12 @@ export const VALID_KEYWORDS_MAP = {
 export type ValidKeyword = keyof typeof VALID_KEYWORDS_MAP;
 
 function getDetailLabel(item: PackageData) {
-  const platforms = [
-    item.android ? 'Android' : null,
-    item.ios ? 'iOS' : null,
-    item.macos ? 'macOS' : null,
-    item.tvos ? 'tvOS' : null,
-    item.visionos ? 'visionOS' : null,
-    item.web ? 'Web' : null,
-    item.windows ? 'Windows' : null
-  ].filter(Boolean);
-
   return [
     `$(star) ${numberFormatter.format(item.github.stats.stars)}`,
     `$(gist-fork) ${numberFormatter.format(item.github.stats.forks)}`,
     item.npm?.downloads && `$(arrow-circle-down) ${numberFormatter.format(item.npm.downloads)}`,
     '•',
-    platforms.join(', '),
+    getPlatformsList(item).join(', '),
     (item.newArchitecture || item.expoGo || item.github.hasTypes) && '•',
     (item.newArchitecture || item.expoGo) && `$(verified) New Architecture`,
     item.github.hasTypes && `$(symbol-type-parameter) Types`
@@ -123,4 +115,41 @@ export async function fetchData(query?: string, keywords?: ValidKeyword[]): Prom
     window.showErrorMessage('Failed to fetch data from React Native Directory API');
     return [];
   }
+}
+
+export function getPlatformsList(item: PackageData): string[] {
+  return [
+    item.android ? 'Android' : null,
+    item.ios ? 'iOS' : null,
+    item.macos ? 'macOS' : null,
+    item.tvos ? 'tvOS' : null,
+    item.visionos ? 'visionOS' : null,
+    item.web ? 'Web' : null,
+    item.windows ? 'Windows' : null
+  ].filter((platform) => platform !== null);
+}
+
+export function getCompatibilityList(item: PackageData): string[] {
+  return [item.expoGo ? 'Expo Go' : null, item.fireos ? 'FireOS' : null].filter((entry) => entry !== null);
+}
+
+export function formatAsSearchParams(list: string[]) {
+  return list.map((entry) => `:${entry.replace(' ', '')}`);
+}
+
+export function deduplicateSearchTokens(query: string, tokens: string[]) {
+  return Array.from(new Set([...query.split(' '), ...formatAsSearchParams(tokens)])).join(' ');
+}
+
+export async function openListWithSearch(packagesPick: QuickPick<DirectoryEntry>, query: string = packagesPick.value) {
+  packagesPick.placeholder = STRINGS.PLACEHOLDER_BUSY;
+  packagesPick.busy = true;
+
+  packagesPick.value = query;
+
+  packagesPick.show();
+  packagesPick.items = await fetchData(query);
+
+  packagesPick.placeholder = STRINGS.PLACEHOLDER;
+  packagesPick.busy = false;
 }

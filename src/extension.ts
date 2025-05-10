@@ -1,14 +1,18 @@
 import { exec } from 'node:child_process';
-import { workspace, commands, window, type ExtensionContext, QuickPickItemKind, env, Uri } from 'vscode';
+import { commands, env, type ExtensionContext, QuickPickItemKind, Uri, window, workspace } from 'vscode';
 
 import { detectPackageManager } from './detectPackageManager';
 import { DirectoryEntry } from './types';
 import {
+  deduplicateSearchTokens,
   ENTRY_OPTION,
   fetchData,
   getCommandToRun,
+  getCompatibilityList,
+  getPlatformsList,
   KEYWORD_REGEX,
   numberFormatter,
+  openListWithSearch,
   STRINGS,
   VALID_KEYWORDS_MAP,
   ValidKeyword
@@ -77,6 +81,9 @@ export async function activate(context: ExtensionContext) {
             ]
           : [];
 
+      const platformsList = getPlatformsList(selectedEntry);
+      const compatibilityList = getCompatibilityList(selectedEntry);
+
       const possibleActions = [
         workspacePath && {
           label: ENTRY_OPTION.INSTALL,
@@ -106,6 +113,15 @@ export async function activate(context: ExtensionContext) {
           description: selectedEntry.github.license.name
         },
         { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
+        { label: 'details', kind: QuickPickItemKind.Separator },
+        {
+          label: ENTRY_OPTION.PLATFORMS,
+          description: platformsList.join(', ')
+        },
+        compatibilityList.length > 0 && {
+          label: ENTRY_OPTION.COMPATIBILITY,
+          description: compatibilityList.join(', ')
+        },
         ...examplesActions,
         { label: 'copy data', kind: QuickPickItemKind.Separator },
         { label: ENTRY_OPTION.COPY_NAME },
@@ -141,7 +157,9 @@ export async function activate(context: ExtensionContext) {
             break;
           }
           case ENTRY_OPTION.VISIT_HOMEPAGE: {
-            env.openExternal(Uri.parse(selectedEntry.github.urls.homepage!));
+            if (selectedEntry.github.urls.homepage) {
+              env.openExternal(Uri.parse(selectedEntry.github.urls.homepage));
+            }
             break;
           }
           case ENTRY_OPTION.VISIT_REPO: {
@@ -152,12 +170,22 @@ export async function activate(context: ExtensionContext) {
             env.openExternal(Uri.parse(`https://www.npmjs.com/package/${selectedEntry.npmPkg}`));
             break;
           }
+          case ENTRY_OPTION.VIEW_LICENSE: {
+            env.openExternal(Uri.parse(selectedEntry.github.license.url));
+            break;
+          }
           case ENTRY_OPTION.VIEW_BUNDLEPHOBIA: {
             env.openExternal(Uri.parse(`https://bundlephobia.com/package/${selectedEntry.npmPkg}`));
             break;
           }
-          case ENTRY_OPTION.VIEW_LICENSE: {
-            env.openExternal(Uri.parse(selectedEntry.github.license.url));
+          case ENTRY_OPTION.PLATFORMS: {
+            const searchValue = deduplicateSearchTokens(packagesPick.value, platformsList);
+            await openListWithSearch(packagesPick, searchValue);
+            break;
+          }
+          case ENTRY_OPTION.COMPATIBILITY: {
+            const searchValue = deduplicateSearchTokens(packagesPick.value, compatibilityList);
+            await openListWithSearch(packagesPick, searchValue);
             break;
           }
           case ENTRY_OPTION.COPY_NAME: {
@@ -176,14 +204,7 @@ export async function activate(context: ExtensionContext) {
             break;
           }
           case ENTRY_OPTION.GO_BACK: {
-            packagesPick.placeholder = STRINGS.PLACEHOLDER_BUSY;
-            packagesPick.busy = true;
-
-            packagesPick.show();
-            packagesPick.items = await fetchData(packagesPick.value);
-
-            packagesPick.placeholder = STRINGS.PLACEHOLDER;
-            packagesPick.busy = false;
+            await openListWithSearch(packagesPick);
             break;
           }
         }
