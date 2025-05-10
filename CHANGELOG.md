@@ -1,3 +1,13 @@
+## [1.1.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.0.3...1.1.0) (2025-05-10)
+
+### New features
+
+* display platforms and compatibility on the package page ([da1a640](https://github.com/react-native-community/vscode-react-native-directory/commit/da1a64070b55aab2f96bd7a10d6de8deae680d09))
+
+### Other changes
+
+* update dependencies and lint config ([27d25db](https://github.com/react-native-community/vscode-react-native-directory/commit/27d25db02da8d01ff62949b97abea55dcd22d0ea))
+
 ## [1.0.3](https://github.com/react-native-community/vscode-react-native-directory/compare/1.0.2...1.0.3) (2025-03-01)
 
 ### Code refactors
