@@ -50,7 +50,8 @@ export const VALID_KEYWORDS_MAP = {
   ismaintained: 'isMaintained',
   ispopular: 'isPopular',
   wasrecentlyupdated: 'wasRecentlyUpdated',
-  newarchitecture: 'newArchitecture'
+  newarchitecture: 'newArchitecture',
+  configplugin: 'configPlugin'
 };
 export type ValidKeyword = keyof typeof VALID_KEYWORDS_MAP;
 

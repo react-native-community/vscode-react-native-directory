@@ -30,7 +30,7 @@ and performing actions related to the chosen package inside the built-in editor 
 
 * Search through the packages registered in the React Native Directory.
 * Narrow down the results by using filter tokens, such as `:ios`, `:newArchitecture`, or `:hasTypes`.
-  * Valid tokens are a subset of all possible API query options, and the values can be seen [in this file](/src/utils.ts#L30-L51).
+  * Valid tokens are a subset of all possible API query options, and the values can be seen [in this file](/src/utils.ts#L33-L55).
 * Install the selected packages in the current workspace using your preferred package manager.
 * Dive deep into the stats and analysis with the provided metadata and links.
 
