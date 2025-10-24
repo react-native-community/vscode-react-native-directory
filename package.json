@@ -42,24 +42,24 @@
     "release:dry-run": "bun --env-file=.env semantic-release --dry-run"
   },
   "devDependencies": {
-    "@eslint/js": "^9.26.0",
+    "@eslint/js": "^9.38.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/node": "^22.13.5",
     "@types/vscode": "^1.94.0",
-    "@vscode/vsce": "^3.3.2",
+    "@vscode/vsce": "^3.6.2",
     "conventional-changelog-conventionalcommits": "^8.0.0",
-    "esbuild": "^0.25.4",
-    "eslint": "^9.26.0",
-    "eslint-config-prettier": "^10.0.1",
-    "eslint-plugin-prettier": "^5.2.3",
-    "globals": "^16.1.0",
-    "jiti": "^2.4.2",
-    "ovsx": "^0.10.2",
-    "prettier": "^3.5.3",
+    "esbuild": "^0.25.11",
+    "eslint": "^9.38.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^16.4.0",
+    "jiti": "^2.6.1",
+    "ovsx": "^0.10.6",
+    "prettier": "^3.6.2",
     "rimraf": "6.0.1",
     "semantic-release": "^24.2.3",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.0"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2"
   }
 }
