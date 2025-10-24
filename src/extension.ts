@@ -112,7 +112,7 @@ export async function activate(context: ExtensionContext) {
           label: ENTRY_OPTION.VIEW_LICENSE,
           description: selectedEntry.github.license.name
         },
-        !!selectedEntry.github.stats.dependencies && {
+        selectedEntry.github.stats.dependencies !== undefined && {
           label: ENTRY_OPTION.VIEW_DEPENDENCIES,
           description: `$(package) ${numberFormatter.format(selectedEntry.github.stats.dependencies)} ${selectedEntry.github.stats.dependencies === 1 ? 'dependency' : 'dependencies'}`
         },
