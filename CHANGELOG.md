@@ -1,3 +1,19 @@
+## [1.2.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.1.0...1.2.0) (2025-10-24)
+
+### New features
+
+* display dependencies and config plugin data ([5826301](https://github.com/react-native-community/vscode-react-native-directory/commit/58263012044f6020a844dfbe837642800abc1386))
+
+### Bug fixes
+
+* add missing `configPlugin` keyword normalization ([1396634](https://github.com/react-native-community/vscode-react-native-directory/commit/1396634c560761b5945d30a7ed3ea5a5dd16254d))
+* dependecies entry check ([0a3e4fe](https://github.com/react-native-community/vscode-react-native-directory/commit/0a3e4feda5fab1930ad6149fdbc3fb9f397c1b03))
+
+### Other changes
+
+* update and optimize README assets ([d00e012](https://github.com/react-native-community/vscode-react-native-directory/commit/d00e012ee44be00ea0436e0712a2f75088cb5790))
+* update dependencies ([039f75b](https://github.com/react-native-community/vscode-react-native-directory/commit/039f75bc2b73e3221d72080b72d4d328bae552d7))
+
 ## [1.1.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.0.3...1.1.0) (2025-05-10)
 
 ### New features
