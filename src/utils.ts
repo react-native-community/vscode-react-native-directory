@@ -14,12 +14,14 @@ export enum ENTRY_OPTION {
   VISIT_NPM = 'Visit npm registry entry',
   VIEW_BUNDLEPHOBIA = 'View BundlePhobia analysis',
   VIEW_LICENSE = 'View license details',
+  VIEW_DEPENDENCIES = 'View dependencies',
   COPY_NAME = 'Copy package name',
   COPY_REPO_URL = 'Copy GitHub repository URL',
   COPY_NPM_URL = 'Copy npm registry URL',
   GO_BACK = '$(newline) Go back to search',
   PLATFORMS = 'Platforms',
-  COMPATIBILITY = 'Compatibility'
+  COMPATIBILITY = 'Compatibility',
+  CONFIG_PLUGIN = 'Config plugin'
 }
 
 export enum STRINGS {
@@ -60,7 +62,8 @@ function getDetailLabel(item: PackageData) {
     '•',
     getPlatformsList(item).join(', '),
     (item.newArchitecture || item.expoGo || item.github.hasTypes) && '•',
-    (item.newArchitecture || item.expoGo) && `$(verified) New Architecture`,
+    (item.newArchitecture || item.expoGo) &&
+      `$(verified) New Architecture${item.newArchitecture === 'new-arch-only' ? ' only' : ''}`,
     item.github.hasTypes && `$(symbol-type-parameter) Types`
   ]
     .filter(Boolean)

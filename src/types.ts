@@ -17,15 +17,18 @@ export type PackageData = {
   fireos?: boolean;
   tvos?: boolean;
   visionos?: boolean;
-  unmaintained?: boolean | string;
+  unmaintained?: boolean;
   dev?: boolean;
   template?: boolean;
-  newArchitecture?: boolean | string;
+  newArchitecture?: boolean | 'new-arch-only';
   newArchitectureNote?: string;
+  configPlugin?: boolean | string;
   alternatives?: string[];
+  npmPkg: string;
+  examples?: string[];
+  images?: string[];
   github: {
     name: string;
-    isPackagePrivate: boolean;
     fullName: string;
     description: string;
     registry?: string;
@@ -33,15 +36,19 @@ export type PackageData = {
     hasTypes?: boolean;
     newArchitecture?: boolean;
     isArchived?: boolean;
+    isPrivate?: boolean;
+    hasNativeCode: boolean;
+    configPlugin?: boolean;
+    moduleType?: 'expo' | 'nitro' | 'turbo';
     urls: {
       repo: string;
-      clone: string;
       homepage?: string | null;
     };
     stats: {
       hasIssues: boolean;
       hasWiki: boolean;
       hasSponsorships: boolean;
+      hasDiscussions: boolean;
       hasTopics?: boolean;
       updatedAt: Date | string;
       createdAt: Date | string;
@@ -50,6 +57,7 @@ export type PackageData = {
       subscribers: number;
       stars: number;
       forks: number;
+      dependencies?: number;
     };
     license: {
       key: string;
@@ -69,16 +77,13 @@ export type PackageData = {
   npm?: {
     downloads?: number;
     weekDownloads?: number;
-    start?: string;
-    end?: string;
-    period?: string;
+    size?: number;
+    latestRelease?: string;
+    latestReleaseDate?: string;
   };
   score: number;
   matchingScoreModifiers: string[];
   topicSearchString: string;
-  examples?: string[];
-  images?: string[];
-  npmPkg: string;
   popularity?: number;
   matchScore?: number;
 };

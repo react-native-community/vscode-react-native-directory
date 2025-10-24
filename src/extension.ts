@@ -112,6 +112,10 @@ export async function activate(context: ExtensionContext) {
           label: ENTRY_OPTION.VIEW_LICENSE,
           description: selectedEntry.github.license.name
         },
+        !!selectedEntry.github.stats.dependencies && {
+          label: ENTRY_OPTION.VIEW_DEPENDENCIES,
+          description: `$(package) ${numberFormatter.format(selectedEntry.github.stats.dependencies)} ${selectedEntry.github.stats.dependencies === 1 ? 'dependency' : 'dependencies'}`
+        },
         { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
         { label: 'details', kind: QuickPickItemKind.Separator },
         {
@@ -121,6 +125,10 @@ export async function activate(context: ExtensionContext) {
         compatibilityList.length > 0 && {
           label: ENTRY_OPTION.COMPATIBILITY,
           description: compatibilityList.join(', ')
+        },
+        selectedEntry.configPlugin && {
+          label: ENTRY_OPTION.CONFIG_PLUGIN,
+          description: typeof selectedEntry.configPlugin === 'string' ? selectedEntry.configPlugin : 'included'
         },
         ...examplesActions,
         { label: 'copy data', kind: QuickPickItemKind.Separator },
@@ -205,6 +213,19 @@ export async function activate(context: ExtensionContext) {
           }
           case ENTRY_OPTION.GO_BACK: {
             await openListWithSearch(packagesPick);
+            break;
+          }
+          case ENTRY_OPTION.VIEW_DEPENDENCIES: {
+            env.openExternal(Uri.parse(`https://www.npmjs.com/package/${selectedEntry.npmPkg}?activeTab=dependencies`));
+            break;
+          }
+          case ENTRY_OPTION.CONFIG_PLUGIN: {
+            if (typeof selectedEntry.configPlugin === 'string') {
+              env.openExternal(Uri.parse(selectedEntry.configPlugin));
+            } else {
+              const searchValue = deduplicateSearchTokens(packagesPick.value, ['configPlugin']);
+              await openListWithSearch(packagesPick, searchValue);
+            }
             break;
           }
         }
