@@ -17,6 +17,8 @@ export type PackageData = {
   fireos?: boolean;
   tvos?: boolean;
   visionos?: boolean;
+  horizon?: boolean;
+  vegaos?: boolean | string;
   unmaintained?: boolean;
   dev?: boolean;
   template?: boolean;

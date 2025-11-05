@@ -40,8 +40,10 @@ export const VALID_KEYWORDS_MAP = {
   ios: 'ios',
   macos: 'macos',
   fireos: 'fireos',
+  horizon: 'horizon',
   tvos: 'tvos',
   visionos: 'visionos',
+  vegaos: 'vegaos',
   web: 'web',
   windows: 'windows',
   hasexample: 'hasExample',
@@ -134,11 +136,21 @@ export function getPlatformsList(item: PackageData): string[] {
 }
 
 export function getCompatibilityList(item: PackageData): string[] {
-  return [item.expoGo ? 'Expo Go' : null, item.fireos ? 'FireOS' : null].filter((entry) => entry !== null);
+  return [
+    item.expoGo ? 'Expo Go' : null,
+    item.fireos ? 'FireOS' : null,
+    item.horizon ? 'Meta Horizon OS' : null,
+    item.vegaos ? 'Vega OS' : null
+  ].filter((entry) => entry !== null);
 }
 
 export function formatAsSearchParams(list: string[]) {
-  return list.map((entry) => `:${entry.replace(' ', '')}`);
+  return list.map((entry) => {
+    if (entry === 'Meta Horizon OS') {
+      return ':horizon';
+    }
+    return `:${entry.replaceAll(' ', '')}`;
+  });
 }
 
 export function deduplicateSearchTokens(query: string, tokens: string[]) {
