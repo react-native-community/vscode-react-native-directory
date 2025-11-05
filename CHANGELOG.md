@@ -1,3 +1,15 @@
+## [1.3.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.2.0...1.3.0) (2025-11-05)
+
+### New features
+
+* add Horizon OS and Vega OS compatibility info ([cb45e9c](https://github.com/react-native-community/vscode-react-native-directory/commit/cb45e9cf329a3ece9a5860c80c10b9be948c63cb))
+* improve data display for dev tools and templates ([e494aa9](https://github.com/react-native-community/vscode-react-native-directory/commit/e494aa9106aebe4b6d3e5009f5a9a35b99573e03))
+
+### Other changes
+
+* update build target, dependencies and workflow actions ([cbea1e2](https://github.com/react-native-community/vscode-react-native-directory/commit/cbea1e2d3bcb7a203c3cba176ed0be8c09f29263))
+* update runner Node to 24 in release workflow ([f832b58](https://github.com/react-native-community/vscode-react-native-directory/commit/f832b585d4dc795ff8e1abde94fe8e1e83bac91b))
+
 ## [1.2.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.1.0...1.2.0) (2025-10-24)
 
 ### New features
