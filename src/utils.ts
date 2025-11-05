@@ -58,12 +58,16 @@ export const VALID_KEYWORDS_MAP = {
 export type ValidKeyword = keyof typeof VALID_KEYWORDS_MAP;
 
 function getDetailLabel(item: PackageData) {
+  const platforms = getPlatformsList(item);
   return [
     `$(star) ${numberFormatter.format(item.github.stats.stars)}`,
     `$(gist-fork) ${numberFormatter.format(item.github.stats.forks)}`,
     item.npm?.downloads && `$(arrow-circle-down) ${numberFormatter.format(item.npm.downloads)}`,
-    '•',
-    getPlatformsList(item).join(', '),
+    (item.dev || item.template) && '•',
+    item.dev && '$(tools) Dev Tool',
+    item.template && '$(folder-library) Template',
+    platforms.length && '•',
+    platforms.join(', '),
     (item.newArchitecture || item.expoGo || item.github.hasTypes) && '•',
     (item.newArchitecture || item.expoGo) &&
       `$(verified) New Architecture${item.newArchitecture === 'new-arch-only' ? ' only' : ''}`,
@@ -168,4 +172,13 @@ export async function openListWithSearch(packagesPick: QuickPick<DirectoryEntry>
 
   packagesPick.placeholder = STRINGS.PLACEHOLDER;
   packagesPick.busy = false;
+}
+
+export function getEntryTypeLabel(entry: DirectoryEntry): string {
+  if (entry.template) {
+    return ' template';
+  } else if (entry.dev) {
+    return ' development tool';
+  }
+  return 'library';
 }

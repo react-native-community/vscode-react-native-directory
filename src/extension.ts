@@ -9,6 +9,7 @@ import {
   fetchData,
   getCommandToRun,
   getCompatibilityList,
+  getEntryTypeLabel,
   getPlatformsList,
   KEYWORD_REGEX,
   numberFormatter,
@@ -98,7 +99,7 @@ export async function activate(context: ExtensionContext) {
             `$(eye) ${numberFormatter.format(selectedEntry.github.stats.subscribers)}`
           ].join(' ')
         },
-        {
+        !selectedEntry.template && {
           label: ENTRY_OPTION.VISIT_NPM,
           description: selectedEntry.npm?.downloads
             ? `$(arrow-circle-down) ${numberFormatter.format(selectedEntry.npm.downloads)}`
@@ -116,7 +117,7 @@ export async function activate(context: ExtensionContext) {
           label: ENTRY_OPTION.VIEW_DEPENDENCIES,
           description: `$(package) ${numberFormatter.format(selectedEntry.github.stats.dependencies)} ${selectedEntry.github.stats.dependencies === 1 ? 'dependency' : 'dependencies'}`
         },
-        { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
+        !selectedEntry.template && { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
         { label: 'details', kind: QuickPickItemKind.Separator },
         {
           label: ENTRY_OPTION.PLATFORMS,
@@ -132,15 +133,15 @@ export async function activate(context: ExtensionContext) {
         },
         ...examplesActions,
         { label: 'copy data', kind: QuickPickItemKind.Separator },
-        { label: ENTRY_OPTION.COPY_NAME },
+        !selectedEntry.template && { label: ENTRY_OPTION.COPY_NAME },
         { label: ENTRY_OPTION.COPY_REPO_URL },
-        { label: ENTRY_OPTION.COPY_NPM_URL },
+        !selectedEntry.template && { label: ENTRY_OPTION.COPY_NPM_URL },
         { label: '', kind: QuickPickItemKind.Separator },
         { label: ENTRY_OPTION.GO_BACK }
       ].filter((option) => !!option && typeof option === 'object');
 
       const optionPick = window.createQuickPick();
-      optionPick.title = `Actions for "${selectedEntry.label}"`;
+      optionPick.title = `Actions for "${selectedEntry.label}" ${getEntryTypeLabel(selectedEntry)}`;
       optionPick.placeholder = 'Select an action';
       optionPick.items = possibleActions;
       optionPick.show();
