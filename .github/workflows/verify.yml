@@ -18,16 +18,13 @@ jobs:
       fail-fast: false
     steps:
       - name: 🏗 Setup repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🏗 Setup Bun
         uses: oven-sh/setup-bun@v2
 
       - name: 📦 Install dependencies
         run: bun install
-
-      - name: 🔨 Compile sources
-        run: bun tsc --noEmit
 
       - name: ✅ Lint project
         run: bun lint

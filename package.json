@@ -33,7 +33,7 @@
   },
   "version": "1.2.0",
   "engines": {
-    "vscode": "^1.94.0"
+    "vscode": "^1.100.0"
   },
   "scripts": {
     "compile": "rimraf build && esbuild ./src/extension.ts --bundle --outfile=build/index.js --external:vscode --format=cjs --platform=node --minify",
@@ -42,24 +42,24 @@
     "release:dry-run": "bun --env-file=.env semantic-release --dry-run"
   },
   "devDependencies": {
-    "@eslint/js": "^9.38.0",
+    "@eslint/js": "^9.39.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "^22.13.5",
+    "@types/node": "^22.19.0",
     "@types/vscode": "^1.94.0",
     "@vscode/vsce": "^3.6.2",
-    "conventional-changelog-conventionalcommits": "^8.0.0",
-    "esbuild": "^0.25.11",
-    "eslint": "^9.38.0",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
+    "esbuild": "^0.25.12",
+    "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "globals": "^16.4.0",
+    "globals": "^16.5.0",
     "jiti": "^2.6.1",
     "ovsx": "^0.10.6",
     "prettier": "^3.6.2",
-    "rimraf": "6.0.1",
-    "semantic-release": "^24.2.3",
+    "rimraf": "6.1.0",
+    "semantic-release": "^25.0.1",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.2"
+    "typescript-eslint": "^8.46.3"
   }
 }
