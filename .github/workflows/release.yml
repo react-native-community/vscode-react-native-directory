@@ -28,6 +28,11 @@ jobs:
       - name: 🏗 Setup Bun
         uses: oven-sh/setup-bun@v2
 
+      - name: 🏗 Setup Node for semantic-release
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
       - name: 📦 Install dependencies
         run: bun install
 
@@ -45,6 +50,11 @@ jobs:
 
       - name: 🏗 Setup Bun
         uses: oven-sh/setup-bun@v2
+
+      - name: 🏗 Setup Node for semantic-release
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
 
       - name: 📦 Install dependencies
         run: bun install
