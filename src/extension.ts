@@ -131,6 +131,10 @@ export async function activate(context: ExtensionContext) {
           label: ENTRY_OPTION.CONFIG_PLUGIN,
           description: typeof selectedEntry.configPlugin === 'string' ? selectedEntry.configPlugin : 'included'
         },
+        {
+          label: ENTRY_OPTION.DIRECTORY_SCORE,
+          description: `$(${selectedEntry.score >= 100 ? 'verified-filled' : 'verified'}) ${selectedEntry.score}/100`
+        },
         ...examplesActions,
         { label: 'copy data', kind: QuickPickItemKind.Separator },
         !selectedEntry.template && { label: ENTRY_OPTION.COPY_NAME },
@@ -227,6 +231,10 @@ export async function activate(context: ExtensionContext) {
               const searchValue = deduplicateSearchTokens(packagesPick.value, ['configPlugin']);
               await openListWithSearch(packagesPick, searchValue);
             }
+            break;
+          }
+          case ENTRY_OPTION.DIRECTORY_SCORE: {
+            env.openExternal(Uri.parse(`https://reactnative.directory/scoring`));
             break;
           }
         }

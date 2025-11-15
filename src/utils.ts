@@ -21,7 +21,8 @@ export enum ENTRY_OPTION {
   GO_BACK = '$(newline) Go back to search',
   PLATFORMS = 'Platforms',
   COMPATIBILITY = 'Compatibility',
-  CONFIG_PLUGIN = 'Config plugin'
+  CONFIG_PLUGIN = 'Config plugin',
+  DIRECTORY_SCORE = 'Directory score'
 }
 
 export enum STRINGS {
