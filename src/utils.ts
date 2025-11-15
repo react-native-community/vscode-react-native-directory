@@ -9,6 +9,7 @@ export const numberFormatter = new Intl.NumberFormat('en-EN', { notation: 'compa
 
 export enum ENTRY_OPTION {
   INSTALL = 'Install package in the current workspace',
+  INSTALL_SPECIFIC_VERSION = 'Install specific package version in the current workspace',
   VISIT_HOMEPAGE = 'Visit homepage',
   VISIT_REPO = 'Visit GitHub repository',
   VISIT_NPM = 'Visit npm registry entry',
@@ -23,6 +24,10 @@ export enum ENTRY_OPTION {
   COMPATIBILITY = 'Compatibility',
   CONFIG_PLUGIN = 'Config plugin',
   DIRECTORY_SCORE = 'Directory score'
+}
+
+export enum VERSIONS_OPTION {
+  CANCEL = '$(newline) Cancel'
 }
 
 export enum STRINGS {
@@ -78,14 +83,14 @@ function getDetailLabel(item: PackageData) {
     .join(' ');
 }
 
-export function getCommandToRun({ dev, npmPkg }: DirectoryEntry, preferredManager: string): string {
+export function getCommandToRun({ dev, npmPkg }: DirectoryEntry, preferredManager: string, version?: string): string {
   switch (preferredManager) {
     case 'bun':
     case 'pnpm':
     case 'yarn':
-      return `${preferredManager} add${dev ? ' -D' : ''} ${npmPkg}`;
+      return `${preferredManager} add${dev ? ' -D' : ''} ${npmPkg}${version ? `@${version}` : ''}`;
     default:
-      return `${preferredManager} install${dev ? ' -D' : ''} ${npmPkg}`;
+      return `${preferredManager} install${dev ? ' -D' : ''} ${npmPkg}${version ? `@${version}` : ''}`;
   }
 }
 
@@ -182,4 +187,8 @@ export function getEntryTypeLabel(entry: DirectoryEntry): string {
     return ' development tool';
   }
   return 'library';
+}
+
+export function invertObject(obj: Record<string, string>): Record<string, string> {
+  return Object.fromEntries(Object.entries(obj).map(([k, v]) => [v, k]));
 }

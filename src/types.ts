@@ -89,3 +89,13 @@ export type PackageData = {
   popularity?: number;
   matchScore?: number;
 };
+
+export type NpmRegistryData = {
+  'dist-tags': Record<string, string>;
+  versions: Record<
+    string,
+    {
+      version: string;
+    } & Record<string, unknown>
+  >;
+};

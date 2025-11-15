@@ -2,7 +2,7 @@ import { exec } from 'node:child_process';
 import { commands, env, type ExtensionContext, QuickPickItemKind, Uri, window, workspace } from 'vscode';
 
 import { detectPackageManager } from './detectPackageManager';
-import { DirectoryEntry } from './types';
+import { DirectoryEntry, NpmRegistryData } from './types';
 import {
   deduplicateSearchTokens,
   ENTRY_OPTION,
@@ -11,12 +11,14 @@ import {
   getCompatibilityList,
   getEntryTypeLabel,
   getPlatformsList,
+  invertObject,
   KEYWORD_REGEX,
   numberFormatter,
   openListWithSearch,
   STRINGS,
   VALID_KEYWORDS_MAP,
-  ValidKeyword
+  ValidKeyword,
+  VERSIONS_OPTION
 } from './utils';
 
 export async function activate(context: ExtensionContext) {
@@ -90,6 +92,10 @@ export async function activate(context: ExtensionContext) {
           label: ENTRY_OPTION.INSTALL,
           description: `with ${preferredManager}${selectedEntry.dev ? ' as devDependency' : ''}`
         },
+        workspacePath && {
+          label: ENTRY_OPTION.INSTALL_SPECIFIC_VERSION,
+          description: `with ${preferredManager}${selectedEntry.dev ? ' as devDependency' : ''}`
+        },
         { label: `open URLs`, kind: QuickPickItemKind.Separator },
         {
           label: ENTRY_OPTION.VISIT_REPO,
@@ -144,11 +150,15 @@ export async function activate(context: ExtensionContext) {
         { label: ENTRY_OPTION.GO_BACK }
       ].filter((option) => !!option && typeof option === 'object');
 
+      function setupAndShowEntryPicker() {
+        optionPick.title = `Actions for "${selectedEntry.label}" ${getEntryTypeLabel(selectedEntry)}`;
+        optionPick.placeholder = 'Select an action';
+        optionPick.items = possibleActions;
+        optionPick.show();
+      }
+
       const optionPick = window.createQuickPick();
-      optionPick.title = `Actions for "${selectedEntry.label}" ${getEntryTypeLabel(selectedEntry)}`;
-      optionPick.placeholder = 'Select an action';
-      optionPick.items = possibleActions;
-      optionPick.show();
+      setupAndShowEntryPicker();
 
       optionPick.onDidAccept(async () => {
         const selectedAction = optionPick.selectedItems[0];
@@ -167,6 +177,71 @@ export async function activate(context: ExtensionContext) {
               );
               optionPick.hide();
             });
+            break;
+          }
+          case ENTRY_OPTION.INSTALL_SPECIFIC_VERSION: {
+            const versionPick = window.createQuickPick();
+            versionPick.title = `Select "${selectedEntry.label}" package version to install`;
+            versionPick.placeholder = 'Loading versions...';
+            versionPick.show();
+
+            const apiUrl = new URL(`https://registry.npmjs.org/${selectedEntry.npmPkg}`);
+            const response = await fetch(apiUrl.href);
+
+            if (!response.ok) {
+              window.showErrorMessage(`Cannot fetch package versions from npm registry`);
+            }
+            const data = (await response.json()) as NpmRegistryData;
+            const tags = invertObject(data['dist-tags']);
+
+            if ('versions' in data) {
+              const versions = Object.values(data.versions).map((item: NpmRegistryData['versions'][number]) => ({
+                label: item.version,
+                description: item.version in tags ? tags[item.version] : '',
+                alwaysShow: true
+              }));
+
+              versionPick.placeholder = 'Select a version';
+              versionPick.items = [
+                ...versions.reverse(),
+                { label: '', kind: QuickPickItemKind.Separator },
+                { label: VERSIONS_OPTION.CANCEL }
+              ];
+
+              versionPick.onDidAccept(async () => {
+                const selectedVersion = versionPick.selectedItems[0];
+
+                if (selectedVersion.label === VERSIONS_OPTION.CANCEL) {
+                  versionPick.hide();
+                  setupAndShowEntryPicker();
+                  return;
+                }
+
+                exec(
+                  getCommandToRun(selectedEntry, preferredManager, selectedVersion.label),
+                  { cwd: workspacePath },
+                  (error, stout) => {
+                    if (error) {
+                      window.showErrorMessage(
+                        `An error occurred while trying to install the \`${selectedEntry.npmPkg}@${selectedVersion.label}\` package: ${error.message}`
+                      );
+                      versionPick.hide();
+                      setupAndShowEntryPicker();
+                      return;
+                    }
+                    window.showInformationMessage(
+                      `\`${selectedEntry.npmPkg}@${selectedVersion.label}\` package has been installed${selectedEntry.dev ? ' as `devDependency`' : ''} in current workspace using \`${preferredManager}\`: ${stout}`
+                    );
+                    versionPick.hide();
+                  }
+                );
+              });
+            } else {
+              window.showErrorMessage(`Incompatible response from npm registry`);
+              versionPick.hide();
+              setupAndShowEntryPicker();
+            }
+
             break;
           }
           case ENTRY_OPTION.VISIT_HOMEPAGE: {
