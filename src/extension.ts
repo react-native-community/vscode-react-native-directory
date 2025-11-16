@@ -1,24 +1,19 @@
 import { exec } from 'node:child_process';
 import { commands, env, type ExtensionContext, QuickPickItemKind, Uri, window, workspace } from 'vscode';
 
+import { ENTRY_OPTION, KEYWORD_REGEX, STRINGS, VALID_KEYWORDS_MAP, VERSIONS_OPTION } from './constants';
 import { detectPackageManager } from './detectPackageManager';
-import { DirectoryEntry, NpmRegistryData } from './types';
+import { DirectoryEntry, NpmRegistryData, ValidKeyword } from './types';
 import {
   deduplicateSearchTokens,
-  ENTRY_OPTION,
   fetchData,
   getCommandToRun,
   getCompatibilityList,
   getEntryTypeLabel,
   getPlatformsList,
   invertObject,
-  KEYWORD_REGEX,
   numberFormatter,
-  openListWithSearch,
-  STRINGS,
-  VALID_KEYWORDS_MAP,
-  ValidKeyword,
-  VERSIONS_OPTION
+  openListWithSearch
 } from './utils';
 
 export async function activate(context: ExtensionContext) {
@@ -33,17 +28,11 @@ export async function activate(context: ExtensionContext) {
   const disposable = commands.registerCommand('extension.showQuickPick', async () => {
     const packagesPick = window.createQuickPick<DirectoryEntry>();
 
-    packagesPick.placeholder = STRINGS.PLACEHOLDER_BUSY;
-    packagesPick.title = STRINGS.DEFAULT_TITLE;
+    packagesPick.placeholder = STRINGS.PACKAGES_PLACEHOLDER_BUSY;
     packagesPick.matchOnDescription = false;
     packagesPick.matchOnDetail = false;
-    packagesPick.busy = true;
 
-    packagesPick.show();
-    packagesPick.items = await fetchData();
-
-    packagesPick.busy = false;
-    packagesPick.placeholder = STRINGS.PLACEHOLDER;
+    await openListWithSearch(packagesPick);
 
     packagesPick.onDidChangeValue(async (value) => {
       packagesPick.busy = true;
@@ -165,23 +154,28 @@ export async function activate(context: ExtensionContext) {
 
         switch (selectedAction.label) {
           case ENTRY_OPTION.INSTALL: {
+            optionPick.busy = true;
+
             exec(getCommandToRun(selectedEntry, preferredManager), { cwd: workspacePath }, (error, stout) => {
               if (error) {
                 window.showErrorMessage(
-                  `An error occurred while trying to install the \`${selectedEntry.npmPkg}\` package: ${error.message}`
+                  `An error occurred while trying to install the '${selectedEntry.npmPkg}' package: ${error.message}`
                 );
+                optionPick.busy = false;
                 return;
               }
               window.showInformationMessage(
-                `\`${selectedEntry.npmPkg}\` package has been installed${selectedEntry.dev ? ' as `devDependency`' : ''} in current workspace using \`${preferredManager}\`: ${stout}`
+                `'${selectedEntry.npmPkg}' package has been installed${selectedEntry.dev ? ' as `devDependency`' : ''} in current workspace using '${preferredManager}': ${stout}`
               );
               optionPick.hide();
             });
+
             break;
           }
           case ENTRY_OPTION.INSTALL_SPECIFIC_VERSION: {
             const versionPick = window.createQuickPick();
             versionPick.title = `Select "${selectedEntry.label}" package version to install`;
+            versionPick.busy = true;
             versionPick.placeholder = 'Loading versions...';
             versionPick.show();
 
@@ -190,7 +184,11 @@ export async function activate(context: ExtensionContext) {
 
             if (!response.ok) {
               window.showErrorMessage(`Cannot fetch package versions from npm registry`);
+              versionPick.hide();
+              setupAndShowEntryPicker();
+              return;
             }
+
             const data = (await response.json()) as NpmRegistryData;
             const tags = invertObject(data['dist-tags']);
 
@@ -201,6 +199,7 @@ export async function activate(context: ExtensionContext) {
                 alwaysShow: true
               }));
 
+              versionPick.busy = false;
               versionPick.placeholder = 'Select a version';
               versionPick.items = [
                 ...versions.reverse(),
@@ -217,27 +216,29 @@ export async function activate(context: ExtensionContext) {
                   return;
                 }
 
+                versionPick.busy = true;
+
                 exec(
                   getCommandToRun(selectedEntry, preferredManager, selectedVersion.label),
                   { cwd: workspacePath },
                   (error, stout) => {
                     if (error) {
                       window.showErrorMessage(
-                        `An error occurred while trying to install the \`${selectedEntry.npmPkg}@${selectedVersion.label}\` package: ${error.message}`
+                        `An error occurred while trying to install the '${selectedEntry.npmPkg}@${selectedVersion.label}' package: ${error.message}`
                       );
                       versionPick.hide();
                       setupAndShowEntryPicker();
                       return;
                     }
                     window.showInformationMessage(
-                      `\`${selectedEntry.npmPkg}@${selectedVersion.label}\` package has been installed${selectedEntry.dev ? ' as `devDependency`' : ''} in current workspace using \`${preferredManager}\`: ${stout}`
+                      `'${selectedEntry.npmPkg}@${selectedVersion.label}' package has been installed${selectedEntry.dev ? ' as `devDependency`' : ''} in current workspace using '${preferredManager}': ${stout}`
                     );
                     versionPick.hide();
                   }
                 );
               });
             } else {
-              window.showErrorMessage(`Incompatible response from npm registry`);
+              window.showErrorMessage(`Recieved incorrect response from npm registry`);
               versionPick.hide();
               setupAndShowEntryPicker();
             }
@@ -314,7 +315,9 @@ export async function activate(context: ExtensionContext) {
           }
         }
 
-        optionPick.hide();
+        if (selectedAction.label !== ENTRY_OPTION.INSTALL) {
+          optionPick.hide();
+        }
       });
     });
   });

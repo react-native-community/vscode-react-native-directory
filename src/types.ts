@@ -1,6 +1,9 @@
 import { type QuickPickItem } from 'vscode';
+import { VALID_KEYWORDS_MAP } from './constants';
 
 export type DirectoryEntry = QuickPickItem & PackageData;
+
+export type ValidKeyword = keyof typeof VALID_KEYWORDS_MAP;
 
 /**
  * Mirror of React Native Directory library type.
