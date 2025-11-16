@@ -1,3 +1,19 @@
+## [1.4.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.3.0...1.4.0) (2025-11-16)
+
+### New features
+
+* add ability to select package version to install ([d630f93](https://github.com/react-native-community/vscode-react-native-directory/commit/d630f9348e7320c40a69e7ee1cbd82ebdd475a37))
+* add Directory Score entry item ([2c7f93b](https://github.com/react-native-community/vscode-react-native-directory/commit/2c7f93b7e2ccef92b64d407e14097177efd1c65b))
+
+### Bug fixes
+
+* improve loading state indications, small refactors ([eac0cdd](https://github.com/react-native-community/vscode-react-native-directory/commit/eac0cdd2074bc231aaf235d5e296d350d2c66913))
+
+### Other changes
+
+* fix VS Code Marketplace badge icon in README ([71b58b3](https://github.com/react-native-community/vscode-react-native-directory/commit/71b58b3d139d1b951ea01e7a73c0b345c9343239))
+* update dependencies and optimize assets ([5a61c30](https://github.com/react-native-community/vscode-react-native-directory/commit/5a61c30a40f34f624469abdbe0f5fa0ea4ed3792))
+
 ## [1.3.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.2.0...1.3.0) (2025-11-05)
 
 ### New features
