@@ -92,6 +92,11 @@ export type PackageData = {
   nightlyProgram?: boolean;
 };
 
+export type APIResponseData = {
+  libraries: DirectoryEntry[];
+  total?: number;
+};
+
 export type NpmRegistryData = {
   'dist-tags': Record<string, string>;
   versions: Record<

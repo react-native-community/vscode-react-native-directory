@@ -10,10 +10,12 @@ import {
   getCommandToRun,
   getCompatibilityList,
   getEntryTypeLabel,
+  getMatchesCountLabel,
   getPlatformsList,
   invertObject,
   numberFormatter,
-  openListWithSearch
+  openListWithSearch,
+  pluralize
 } from './utils';
 
 export async function activate(context: ExtensionContext) {
@@ -46,14 +48,30 @@ export async function activate(context: ExtensionContext) {
           .filter((keyword): keyword is ValidKeyword => keyword in VALID_KEYWORDS_MAP)
           .map((keyword) => VALID_KEYWORDS_MAP[keyword] as ValidKeyword);
 
+        const { libraries, total } = await fetchData(searchString, validKeywords);
+        packagesPick.items = libraries;
+
         if (validKeywords.length > 0) {
-          packagesPick.title = `Active filters: ${validKeywords.join(', ')}`;
+          if (searchString.trim().length > 0) {
+            packagesPick.title = `Query: ${searchString} • Filters: ${validKeywords.join(', ')} • ${getMatchesCountLabel(total)}`;
+          } else {
+            packagesPick.title = `Filters: ${validKeywords.join(', ')} • ${getMatchesCountLabel(total)}`;
+          }
+        } else {
+          if (searchString.trim().length > 0) {
+            packagesPick.title = `Query: ${searchString} • ${getMatchesCountLabel(total)}`;
+          } else {
+            packagesPick.title = STRINGS.DEFAULT_TITLE;
+          }
+        }
+      } else {
+        const { libraries, total } = await fetchData(value);
+        packagesPick.items = libraries;
+        if (value.trim().length > 0) {
+          packagesPick.title = `Query: ${value} • ${getMatchesCountLabel(total)}`;
         } else {
           packagesPick.title = STRINGS.DEFAULT_TITLE;
         }
-        packagesPick.items = await fetchData(searchString, validKeywords);
-      } else {
-        packagesPick.items = await fetchData(value);
       }
 
       packagesPick.busy = false;
@@ -111,7 +129,7 @@ export async function activate(context: ExtensionContext) {
         },
         selectedEntry.github.stats.dependencies !== undefined && {
           label: ENTRY_OPTION.VIEW_DEPENDENCIES,
-          description: `$(package) ${numberFormatter.format(selectedEntry.github.stats.dependencies)} ${selectedEntry.github.stats.dependencies === 1 ? 'dependency' : 'dependencies'}`
+          description: `$(package) ${numberFormatter.format(selectedEntry.github.stats.dependencies)} ${pluralize('dependency', selectedEntry.github.stats.dependencies)}`
         },
         !selectedEntry.template && { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
         selectedEntry.nightlyProgram && { label: ENTRY_OPTION.VIEW_NIGHTLY_RESULTS },

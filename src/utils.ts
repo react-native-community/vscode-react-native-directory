@@ -1,6 +1,6 @@
 import { QuickPick, window } from 'vscode';
 
-import { DirectoryEntry, PackageData, ValidKeyword } from './types';
+import { APIResponseData, DirectoryEntry, PackageData, ValidKeyword } from './types';
 import { BASE_API_URL, STRINGS } from './constants';
 
 export const numberFormatter = new Intl.NumberFormat('en-EN', { notation: 'compact' });
@@ -37,7 +37,12 @@ export function getCommandToRun({ dev, npmPkg }: DirectoryEntry, preferredManage
   }
 }
 
-export async function fetchData(query?: string, keywords?: ValidKeyword[]): Promise<DirectoryEntry[]> {
+const EMPTY_RESULT = {
+  libraries: [],
+  total: 0
+};
+
+export async function fetchData(query?: string, keywords?: ValidKeyword[]): Promise<APIResponseData> {
   try {
     const apiUrl = new URL(BASE_API_URL);
 
@@ -53,26 +58,29 @@ export async function fetchData(query?: string, keywords?: ValidKeyword[]): Prom
     const response = await fetch(apiUrl.href);
 
     if (response.ok) {
-      const data = (await response.json()) as object;
+      const data = (await response.json()) as APIResponseData;
 
       if ('libraries' in data && Array.isArray(data.libraries)) {
-        return data.libraries.map((item: PackageData) => ({
-          label: item.npmPkg,
-          description: item.github.description ?? 'No description',
-          detail: getDetailLabel(item),
-          alwaysShow: true,
-          ...item
-        }));
+        return {
+          libraries: data.libraries.map((item: PackageData) => ({
+            label: item.npmPkg,
+            description: item.github.description ?? 'No description',
+            detail: getDetailLabel(item),
+            alwaysShow: true,
+            ...item
+          })),
+          total: data.total ?? 0
+        };
       }
       window.showErrorMessage(`Invalid React Native Directory API response content`);
-      return [];
+      return EMPTY_RESULT;
     }
     window.showErrorMessage(`Invalid React Native Directory API response: ${response.status}`);
-    return [];
+    return EMPTY_RESULT;
   } catch (error) {
     console.error(error);
     window.showErrorMessage('Failed to fetch data from React Native Directory API');
-    return [];
+    return EMPTY_RESULT;
   }
 }
 
@@ -122,9 +130,10 @@ export async function openListWithSearch(
   }
 
   packagesPick.show();
-  packagesPick.items = await fetchData(query);
+  packagesPick.items = (await fetchData(query)).libraries;
 
   packagesPick.placeholder = STRINGS.PACKAGES_PLACEHOLDER;
+  packagesPick.title = STRINGS.DEFAULT_TITLE;
   packagesPick.busy = false;
 }
 
@@ -137,6 +146,26 @@ export function getEntryTypeLabel(entry: DirectoryEntry): string {
   return 'library';
 }
 
+export function getMatchesCountLabel(count: number = 0): string {
+  return `${numberFormatter.format(count)} ${pluralize('match', count)}`;
+}
+
 export function invertObject(obj: Record<string, string>): Record<string, string> {
   return Object.fromEntries(Object.entries(obj).map(([k, v]) => [v, k]));
+}
+
+export function pluralize(word: string, count: number) {
+  if (count === 1) {
+    return word;
+  }
+
+  if (/[^aeiou]y$/i.test(word)) {
+    return word.replace(/y$/i, 'ies');
+  }
+
+  if (/(s|sh|ch|x|z)$/i.test(word)) {
+    return `${word}es`;
+  }
+
+  return `${word}s`;
 }
