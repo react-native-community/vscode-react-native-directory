@@ -113,6 +113,7 @@ export async function activate(context: ExtensionContext) {
           description: `$(package) ${numberFormatter.format(selectedEntry.github.stats.dependencies)} ${selectedEntry.github.stats.dependencies === 1 ? 'dependency' : 'dependencies'}`
         },
         !selectedEntry.template && { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
+        selectedEntry.nightlyProgram && { label: ENTRY_OPTION.VIEW_NIGHTLY_RESULTS },
         { label: 'details', kind: QuickPickItemKind.Separator },
         {
           label: ENTRY_OPTION.PLATFORMS,
@@ -265,6 +266,10 @@ export async function activate(context: ExtensionContext) {
           }
           case ENTRY_OPTION.VIEW_BUNDLEPHOBIA: {
             env.openExternal(Uri.parse(`https://bundlephobia.com/package/${selectedEntry.npmPkg}`));
+            break;
+          }
+          case ENTRY_OPTION.VIEW_NIGHTLY_RESULTS: {
+            env.openExternal(Uri.parse(`https://react-native-community.github.io/nightly-tests/`));
             break;
           }
           case ENTRY_OPTION.PLATFORMS: {

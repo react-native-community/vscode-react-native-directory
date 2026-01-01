@@ -10,6 +10,7 @@ export enum ENTRY_OPTION {
   VIEW_BUNDLEPHOBIA = 'View BundlePhobia analysis',
   VIEW_LICENSE = 'View license details',
   VIEW_DEPENDENCIES = 'View dependencies',
+  VIEW_NIGHTLY_RESULTS = 'View results of Nightly Program tests',
   COPY_NAME = 'Copy package name',
   COPY_REPO_URL = 'Copy GitHub repository URL',
   COPY_NPM_URL = 'Copy npm registry URL',
@@ -53,5 +54,6 @@ export const VALID_KEYWORDS_MAP = {
   ispopular: 'isPopular',
   wasrecentlyupdated: 'wasRecentlyUpdated',
   newarchitecture: 'newArchitecture',
-  configplugin: 'configPlugin'
+  configplugin: 'configPlugin',
+  nightlyprogram: 'nightlyProgram'
 };

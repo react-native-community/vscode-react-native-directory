@@ -35,7 +35,7 @@ export type PackageData = {
   github: {
     name: string;
     fullName: string;
-    description: string;
+    description?: string;
     registry?: string;
     topics?: string[];
     hasTypes?: boolean;
@@ -43,6 +43,7 @@ export type PackageData = {
     isArchived?: boolean;
     isPrivate?: boolean;
     hasNativeCode: boolean;
+    hasReadme?: boolean;
     configPlugin?: boolean;
     moduleType?: 'expo' | 'nitro' | 'turbo';
     urls: {
@@ -52,8 +53,10 @@ export type PackageData = {
     stats: {
       hasIssues: boolean;
       hasWiki: boolean;
+      hasProjects: boolean;
       hasSponsorships: boolean;
       hasDiscussions: boolean;
+      hasVulnerabilityAlerts: boolean;
       hasTopics?: boolean;
       updatedAt: Date | string;
       createdAt: Date | string;
@@ -71,26 +74,22 @@ export type PackageData = {
       url: string;
       id: string;
     };
-    lastRelease?: {
-      name: string;
-      tagName: string;
-      createdAt: Date | string;
-      publishedAt: Date | string;
-      isPrerelease: boolean;
-    };
   };
   npm?: {
     downloads?: number;
     weekDownloads?: number;
     size?: number;
+    versionsCount?: number;
     latestRelease?: string;
     latestReleaseDate?: string;
+    hasReadme?: boolean;
   };
   score: number;
   matchingScoreModifiers: string[];
   topicSearchString: string;
   popularity?: number;
   matchScore?: number;
+  nightlyProgram?: boolean;
 };
 
 export type NpmRegistryData = {

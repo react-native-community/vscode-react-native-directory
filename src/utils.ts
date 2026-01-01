@@ -16,10 +16,11 @@ function getDetailLabel(item: PackageData) {
     item.template && '$(folder-library) Template',
     platforms.length && '•',
     platforms.join(', '),
-    (item.newArchitecture || item.expoGo || item.github.hasTypes) && '•',
+    (item.newArchitecture || item.expoGo) && '•',
     (item.newArchitecture || item.expoGo) &&
       `$(verified) New Architecture${item.newArchitecture === 'new-arch-only' ? ' only' : ''}`,
-    item.github.hasTypes && `$(symbol-type-parameter) Types`
+    item.github.hasTypes && `• $(symbol-type-parameter) Types`,
+    item.nightlyProgram && `• $(beaker) Nightly Program`
   ]
     .filter(Boolean)
     .join(' ');
@@ -57,7 +58,7 @@ export async function fetchData(query?: string, keywords?: ValidKeyword[]): Prom
       if ('libraries' in data && Array.isArray(data.libraries)) {
         return data.libraries.map((item: PackageData) => ({
           label: item.npmPkg,
-          description: item.github.description,
+          description: item.github.description ?? 'No description',
           detail: getDetailLabel(item),
           alwaysShow: true,
           ...item
