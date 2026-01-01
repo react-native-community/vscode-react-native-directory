@@ -100,6 +100,7 @@ export async function activate(context: ExtensionContext) {
             ? `$(arrow-circle-down) ${numberFormatter.format(selectedEntry.npm.downloads)}`
             : ''
         },
+        { label: ENTRY_OPTION.VISIT_DIRECTORY },
         selectedEntry.github.urls.homepage && {
           label: ENTRY_OPTION.VISIT_HOMEPAGE,
           description: selectedEntry.github.urls.homepage
@@ -136,6 +137,7 @@ export async function activate(context: ExtensionContext) {
         !selectedEntry.template && { label: ENTRY_OPTION.COPY_NAME },
         { label: ENTRY_OPTION.COPY_REPO_URL },
         !selectedEntry.template && { label: ENTRY_OPTION.COPY_NPM_URL },
+        !selectedEntry.template && { label: ENTRY_OPTION.COPY_DIRECTORY_URL },
         { label: '', kind: QuickPickItemKind.Separator },
         { label: ENTRY_OPTION.GO_BACK }
       ].filter((option) => !!option && typeof option === 'object');
@@ -260,6 +262,10 @@ export async function activate(context: ExtensionContext) {
             env.openExternal(Uri.parse(`https://www.npmjs.com/package/${selectedEntry.npmPkg}`));
             break;
           }
+          case ENTRY_OPTION.VISIT_DIRECTORY: {
+            env.openExternal(Uri.parse(`https://reactnative.directory/package/${selectedEntry.npmPkg}`));
+            break;
+          }
           case ENTRY_OPTION.VIEW_LICENSE: {
             env.openExternal(Uri.parse(selectedEntry.github.license.url));
             break;
@@ -297,6 +303,11 @@ export async function activate(context: ExtensionContext) {
             window.showInformationMessage('npm registry URL copied to clipboard');
             break;
           }
+          case ENTRY_OPTION.COPY_DIRECTORY_URL: {
+            env.clipboard.writeText(`https://reactnative.directory/package/${selectedEntry.npmPkg}`);
+            window.showInformationMessage('React Native Directory page URL copied to clipboard');
+            break;
+          }
           case ENTRY_OPTION.GO_BACK: {
             await openListWithSearch(packagesPick);
             break;
@@ -315,7 +326,7 @@ export async function activate(context: ExtensionContext) {
             break;
           }
           case ENTRY_OPTION.DIRECTORY_SCORE: {
-            env.openExternal(Uri.parse(`https://reactnative.directory/scoring`));
+            env.openExternal(Uri.parse(`https://reactnative.directory/package/${selectedEntry.npmPkg}/score`));
             break;
           }
         }
