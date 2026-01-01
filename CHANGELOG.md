@@ -1,3 +1,15 @@
+## [1.5.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.4.0...1.5.0) (2026-01-01)
+
+### New features
+
+* add Directory package page entries, update score link ([899ffad](https://github.com/react-native-community/vscode-react-native-directory/commit/899ffaddf571e8579c8351301e5c3eff60bbaa88))
+* add Nightly Program data, link and filter ([6da46d8](https://github.com/react-native-community/vscode-react-native-directory/commit/6da46d8e333bc25470be51a5754d3849f072edc3))
+* improve search state title, show matches count ([d91f8e5](https://github.com/react-native-community/vscode-react-native-directory/commit/d91f8e539e06807b36b832c4510138189bcb8b2f))
+
+### Other changes
+
+* update dependencies and actions ([5c7b381](https://github.com/react-native-community/vscode-react-native-directory/commit/5c7b38113d9903324216d9fe207fdb34f74f142b))
+
 ## [1.4.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.3.0...1.4.0) (2025-11-16)
 
 ### New features
