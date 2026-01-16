@@ -20,17 +20,17 @@ export enum ENTRY_OPTION {
   PLATFORMS = 'Platforms',
   COMPATIBILITY = 'Compatibility',
   CONFIG_PLUGIN = 'Config plugin',
-  DIRECTORY_SCORE = 'Directory score'
+  DIRECTORY_SCORE = 'Directory score',
 }
 
 export enum VERSIONS_OPTION {
-  CANCEL = '$(newline) Cancel'
+  CANCEL = '$(newline) Cancel',
 }
 
 export enum STRINGS {
   DEFAULT_TITLE = 'Search in React Native Directory',
   PACKAGES_PLACEHOLDER_BUSY = 'Loading directory data...',
-  PACKAGES_PLACEHOLDER = 'Search for a package'
+  PACKAGES_PLACEHOLDER = 'Search for a package',
 }
 
 /**
@@ -57,5 +57,5 @@ export const VALID_KEYWORDS_MAP = {
   wasrecentlyupdated: 'wasRecentlyUpdated',
   newarchitecture: 'newArchitecture',
   configplugin: 'configPlugin',
-  nightlyprogram: 'nightlyProgram'
+  nightlyprogram: 'nightlyProgram',
 };

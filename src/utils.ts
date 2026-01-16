@@ -1,6 +1,6 @@
-import { QuickPick, window } from 'vscode';
+import { type QuickPick, window } from 'vscode';
 
-import { APIResponseData, DirectoryEntry, PackageData, ValidKeyword } from './types';
+import { type APIResponseData, type DirectoryEntry, type PackageData, type ValidKeyword } from './types';
 import { BASE_API_URL, STRINGS } from './constants';
 
 export const numberFormatter = new Intl.NumberFormat('en-EN', { notation: 'compact' });
@@ -11,16 +11,16 @@ function getDetailLabel(item: PackageData) {
     `$(star) ${numberFormatter.format(item.github.stats.stars)}`,
     `$(gist-fork) ${numberFormatter.format(item.github.stats.forks)}`,
     item.npm?.downloads && `$(arrow-circle-down) ${numberFormatter.format(item.npm.downloads)}`,
-    (item.dev || item.template) && '•',
+    (item.dev ?? item.template) && '•',
     item.dev && '$(tools) Dev Tool',
     item.template && '$(folder-library) Template',
     platforms.length && '•',
     platforms.join(', '),
-    (item.newArchitecture || item.expoGo) && '•',
-    (item.newArchitecture || item.expoGo) &&
+    (item.newArchitecture ?? item.expoGo) && '•',
+    (item.newArchitecture ?? item.expoGo) &&
       `$(verified) New Architecture${item.newArchitecture === 'new-arch-only' ? ' only' : ''}`,
     item.github.hasTypes && `• $(symbol-type-parameter) Types`,
-    item.nightlyProgram && `• $(beaker) Nightly Program`
+    item.nightlyProgram && `• $(beaker) Nightly Program`,
   ]
     .filter(Boolean)
     .join(' ');
@@ -39,7 +39,7 @@ export function getCommandToRun({ dev, npmPkg }: DirectoryEntry, preferredManage
 
 const EMPTY_RESULT = {
   libraries: [],
-  total: 0
+  total: 0,
 };
 
 export async function fetchData(query?: string, keywords?: ValidKeyword[]): Promise<APIResponseData> {
@@ -52,7 +52,7 @@ export async function fetchData(query?: string, keywords?: ValidKeyword[]): Prom
     }
 
     if (keywords) {
-      keywords.forEach((keyword) => apiUrl.searchParams.append(keyword, 'true'));
+      keywords.forEach(keyword => apiUrl.searchParams.append(keyword, 'true'));
     }
 
     const response = await fetch(apiUrl.href);
@@ -67,9 +67,9 @@ export async function fetchData(query?: string, keywords?: ValidKeyword[]): Prom
             description: item.github.description ?? 'No description',
             detail: getDetailLabel(item),
             alwaysShow: true,
-            ...item
+            ...item,
           })),
-          total: data.total ?? 0
+          total: data.total ?? 0,
         };
       }
       window.showErrorMessage(`Invalid React Native Directory API response content`);
@@ -92,8 +92,8 @@ export function getPlatformsList(item: PackageData): string[] {
     item.tvos ? 'tvOS' : null,
     item.visionos ? 'visionOS' : null,
     item.web ? 'Web' : null,
-    item.windows ? 'Windows' : null
-  ].filter((platform) => platform !== null);
+    item.windows ? 'Windows' : null,
+  ].filter(platform => platform !== null);
 }
 
 export function getCompatibilityList(item: PackageData): string[] {
@@ -101,12 +101,12 @@ export function getCompatibilityList(item: PackageData): string[] {
     item.expoGo ? 'Expo Go' : null,
     item.fireos ? 'FireOS' : null,
     item.horizon ? 'Meta Horizon OS' : null,
-    item.vegaos ? 'Vega OS' : null
-  ].filter((entry) => entry !== null);
+    item.vegaos ? 'Vega OS' : null,
+  ].filter(entry => entry !== null);
 }
 
 export function formatAsSearchParams(list: string[]) {
-  return list.map((entry) => {
+  return list.map(entry => {
     if (entry === 'Meta Horizon OS') {
       return ':horizon';
     }

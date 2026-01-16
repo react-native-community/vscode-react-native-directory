@@ -3,7 +3,7 @@ import { commands, env, type ExtensionContext, QuickPickItemKind, Uri, window, w
 
 import { ENTRY_OPTION, KEYWORD_REGEX, STRINGS, VALID_KEYWORDS_MAP, VERSIONS_OPTION } from './constants';
 import { detectPackageManager } from './detectPackageManager';
-import { DirectoryEntry, NpmRegistryData, ValidKeyword } from './types';
+import { type DirectoryEntry, type NpmRegistryData, type ValidKeyword } from './types';
 import {
   deduplicateSearchTokens,
   fetchData,
@@ -15,7 +15,7 @@ import {
   invertObject,
   numberFormatter,
   openListWithSearch,
-  pluralize
+  pluralize,
 } from './utils';
 
 export async function activate(context: ExtensionContext) {
@@ -36,17 +36,17 @@ export async function activate(context: ExtensionContext) {
 
     await openListWithSearch(packagesPick);
 
-    packagesPick.onDidChangeValue(async (value) => {
+    packagesPick.onDidChangeValue(async value => {
       packagesPick.busy = true;
 
       if (value.includes(':')) {
-        const keywords = (value.match(KEYWORD_REGEX) ?? []).map((token) => token.slice(1));
+        const keywords = (value.match(KEYWORD_REGEX) ?? []).map(token => token.slice(1));
         const searchString = value.replace(KEYWORD_REGEX, '').trim();
 
         const validKeywords = keywords
-          .map((keyword) => keyword.toLowerCase())
+          .map(keyword => keyword.toLowerCase())
           .filter((keyword): keyword is ValidKeyword => keyword in VALID_KEYWORDS_MAP)
-          .map((keyword) => VALID_KEYWORDS_MAP[keyword] as ValidKeyword);
+          .map(keyword => VALID_KEYWORDS_MAP[keyword] as ValidKeyword);
 
         const { libraries, total } = await fetchData(searchString, validKeywords);
         packagesPick.items = libraries;
@@ -86,8 +86,8 @@ export async function activate(context: ExtensionContext) {
               { label: 'view examples', kind: QuickPickItemKind.Separator },
               ...selectedEntry.examples.map((example, index) => ({
                 label: `Example #${index + 1}`,
-                description: example
-              }))
+                description: example,
+              })),
             ]
           : [];
 
@@ -97,11 +97,11 @@ export async function activate(context: ExtensionContext) {
       const possibleActions = [
         workspacePath && {
           label: ENTRY_OPTION.INSTALL,
-          description: `with ${preferredManager}${selectedEntry.dev ? ' as devDependency' : ''}`
+          description: `with ${preferredManager}${selectedEntry.dev ? ' as devDependency' : ''}`,
         },
         workspacePath && {
           label: ENTRY_OPTION.INSTALL_SPECIFIC_VERSION,
-          description: `with ${preferredManager}${selectedEntry.dev ? ' as devDependency' : ''}`
+          description: `with ${preferredManager}${selectedEntry.dev ? ' as devDependency' : ''}`,
         },
         { label: `open URLs`, kind: QuickPickItemKind.Separator },
         {
@@ -109,46 +109,46 @@ export async function activate(context: ExtensionContext) {
           description: [
             `$(star) ${numberFormatter.format(selectedEntry.github.stats.stars)}`,
             `$(gist-fork) ${numberFormatter.format(selectedEntry.github.stats.forks)}`,
-            `$(eye) ${numberFormatter.format(selectedEntry.github.stats.subscribers)}`
-          ].join(' ')
+            `$(eye) ${numberFormatter.format(selectedEntry.github.stats.subscribers)}`,
+          ].join(' '),
         },
         !selectedEntry.template && {
           label: ENTRY_OPTION.VISIT_NPM,
           description: selectedEntry.npm?.downloads
             ? `$(arrow-circle-down) ${numberFormatter.format(selectedEntry.npm.downloads)}`
-            : ''
+            : '',
         },
         { label: ENTRY_OPTION.VISIT_DIRECTORY },
         selectedEntry.github.urls.homepage && {
           label: ENTRY_OPTION.VISIT_HOMEPAGE,
-          description: selectedEntry.github.urls.homepage
+          description: selectedEntry.github.urls.homepage,
         },
         selectedEntry.github.license && {
           label: ENTRY_OPTION.VIEW_LICENSE,
-          description: selectedEntry.github.license.name
+          description: selectedEntry.github.license.name,
         },
         selectedEntry.github.stats.dependencies !== undefined && {
           label: ENTRY_OPTION.VIEW_DEPENDENCIES,
-          description: `$(package) ${numberFormatter.format(selectedEntry.github.stats.dependencies)} ${pluralize('dependency', selectedEntry.github.stats.dependencies)}`
+          description: `$(package) ${numberFormatter.format(selectedEntry.github.stats.dependencies)} ${pluralize('dependency', selectedEntry.github.stats.dependencies)}`,
         },
         !selectedEntry.template && { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
         selectedEntry.nightlyProgram && { label: ENTRY_OPTION.VIEW_NIGHTLY_RESULTS },
         { label: 'details', kind: QuickPickItemKind.Separator },
         {
           label: ENTRY_OPTION.PLATFORMS,
-          description: platformsList.join(', ')
+          description: platformsList.join(', '),
         },
         compatibilityList.length > 0 && {
           label: ENTRY_OPTION.COMPATIBILITY,
-          description: compatibilityList.join(', ')
+          description: compatibilityList.join(', '),
         },
         selectedEntry.configPlugin && {
           label: ENTRY_OPTION.CONFIG_PLUGIN,
-          description: typeof selectedEntry.configPlugin === 'string' ? selectedEntry.configPlugin : 'included'
+          description: typeof selectedEntry.configPlugin === 'string' ? selectedEntry.configPlugin : 'included',
         },
         {
           label: ENTRY_OPTION.DIRECTORY_SCORE,
-          description: `$(${selectedEntry.score >= 100 ? 'verified-filled' : 'verified'}) ${selectedEntry.score}/100`
+          description: `$(${selectedEntry.score >= 100 ? 'verified-filled' : 'verified'}) ${selectedEntry.score}/100`,
         },
         ...examplesActions,
         { label: 'copy data', kind: QuickPickItemKind.Separator },
@@ -157,8 +157,8 @@ export async function activate(context: ExtensionContext) {
         !selectedEntry.template && { label: ENTRY_OPTION.COPY_NPM_URL },
         !selectedEntry.template && { label: ENTRY_OPTION.COPY_DIRECTORY_URL },
         { label: '', kind: QuickPickItemKind.Separator },
-        { label: ENTRY_OPTION.GO_BACK }
-      ].filter((option) => !!option && typeof option === 'object');
+        { label: ENTRY_OPTION.GO_BACK },
+      ].filter(option => !!option && typeof option === 'object');
 
       function setupAndShowEntryPicker() {
         optionPick.title = `Actions for "${selectedEntry.label}" ${getEntryTypeLabel(selectedEntry)}`;
@@ -217,7 +217,7 @@ export async function activate(context: ExtensionContext) {
               const versions = Object.values(data.versions).map((item: NpmRegistryData['versions'][number]) => ({
                 label: item.version,
                 description: item.version in tags ? tags[item.version] : '',
-                alwaysShow: true
+                alwaysShow: true,
               }));
 
               versionPick.busy = false;
@@ -225,7 +225,7 @@ export async function activate(context: ExtensionContext) {
               versionPick.items = [
                 ...versions.reverse(),
                 { label: '', kind: QuickPickItemKind.Separator },
-                { label: VERSIONS_OPTION.CANCEL }
+                { label: VERSIONS_OPTION.CANCEL },
               ];
 
               versionPick.onDidAccept(async () => {

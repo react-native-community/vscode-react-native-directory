@@ -1,5 +1,5 @@
 import { type QuickPickItem } from 'vscode';
-import { VALID_KEYWORDS_MAP } from './constants';
+import { type VALID_KEYWORDS_MAP } from './constants';
 
 export type DirectoryEntry = QuickPickItem & PackageData;
 

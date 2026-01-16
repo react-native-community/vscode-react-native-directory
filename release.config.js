@@ -3,7 +3,7 @@ const rules = [
   { type: 'fix', release: 'patch', title: 'Bug fixes' },
   { type: 'refactor', release: 'patch', title: 'Code refactors' },
   { type: 'docs', release: 'patch', title: 'Documentation changes' },
-  { type: 'chore', release: 'patch', title: 'Other changes' }
+  { type: 'chore', release: 'patch', title: 'Other changes' },
 ];
 
 const sortMap = Object.fromEntries(rules.map((rule, index) => [rule.title, index]));
@@ -21,21 +21,21 @@ module.exports = {
         preset: 'conventionalcommits',
         releaseRules: [
           { breaking: true, release: 'major' },
-          { revert: true, release: 'patch' }
-        ].concat(rules.map(({ type, release }) => ({ type, release })))
-      }
+          { revert: true, release: 'patch' },
+        ].concat(rules.map(({ type, release }) => ({ type, release }))),
+      },
     ],
     [
       '@semantic-release/release-notes-generator',
       {
         preset: 'conventionalcommits',
         presetConfig: {
-          types: rules.map(({ type, title }) => ({ type, section: title }))
+          types: rules.map(({ type, title }) => ({ type, section: title })),
         },
         writerOpts: {
-          commitGroupsSort: (a, z) => sortMap[a.title] - sortMap[z.title]
-        }
-      }
+          commitGroupsSort: (a, z) => sortMap[a.title] - sortMap[z.title],
+        },
+      },
     ],
     '@semantic-release/changelog',
     ['@semantic-release/npm', { npmPublish: false }],
@@ -43,14 +43,14 @@ module.exports = {
       '@semantic-release/git',
       {
         message: 'chore: create new release ${nextRelease.version}\n\n${nextRelease.notes}',
-        assets: ['package.json', 'CHANGELOG.md']
-      }
+        assets: ['package.json', 'CHANGELOG.md'],
+      },
     ],
     [
       '@semantic-release/github',
       {
-        draftRelease: false
-      }
-    ]
-  ]
+        draftRelease: false,
+      },
+    ],
+  ],
 };

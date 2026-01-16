@@ -28,36 +28,39 @@ and performing actions related to the chosen package inside the built-in editor 
 
 ## ⚡️ Features
 
-* Search through the packages registered in the React Native Directory.
-* Narrow down the results by using filter tokens, such as `:ios`, `:newArchitecture`, or `:hasTypes`.
-  * Valid tokens are a subset of all possible API query options, and the values can be seen [in this file](/src/utils.ts#L33-L55).
-* Install the selected packages in the current workspace using your preferred package manager.
-* Dive deep into the stats and analysis with the provided metadata and links.
+- Search through the packages registered in the React Native Directory.
+- Narrow down the results by using filter tokens, such as `:ios`, `:newArchitecture`, or `:hasTypes`.
+  - Valid tokens are a subset of all possible API query options, and the values can be seen [in this file](/src/utils.ts#L33-L55).
+- Install the selected packages in the current workspace using your preferred package manager.
+- Dive deep into the stats and analysis with the provided metadata and links.
 
 ## 📦 Installation
 
 #### VS Marketplace
+
 1. Go to [VS Marketplace](https://marketplace.visualstudio.com/items?itemName=react-native-directory.vscode-react-native-directory).
 1. Click on the **"Install"** button.
 
 #### Open VSX Registry
+
 1. Go to [Open VSX Registry](https://open-vsx.org/extension/react-native-directory/vscode-react-native-directory).
 1. Click on the **"Download"** button
 1. In VS Code:
-   * Navigate to the **"Extensions"** pane (<kbd>Ctrl/Cmd+Shift+X</kbd>).
-   * Click **"More"** button (three dots in the right corner of header) and select **"Install from VSIX"**.
-   * Select the VSIX file downloaded earlier in the process.
+   - Navigate to the **"Extensions"** pane (<kbd>Ctrl/Cmd+Shift+X</kbd>).
+   - Click **"More"** button (three dots in the right corner of header) and select **"Install from VSIX"**.
+   - Select the VSIX file downloaded earlier in the process.
 
 ## 📝 Contributing
 
 1. Make sure you have [Bun](https://bun.sh/docs/installation) installed.
 1. Checkout the repository locally.
 1. Run the following commands to install dependencies and compile source:
-   
+
    ```sh
    bun install
    ```
+
 1. In VS Code:
-   * Open folder containing the extension repository.
-   * Navigate to the **"Run and Debug"** pane (<kbd>Ctrl/Cmd+Shift+D</kbd>).
-   * Select **"Run with extension"** launch task, and press **"Start Debugging"** button (<kbd>F5</kbd>).
+   - Open folder containing the extension repository.
+   - Navigate to the **"Run and Debug"** pane (<kbd>Ctrl/Cmd+Shift+D</kbd>).
+   - Select **"Run with extension"** launch task, and press **"Start Debugging"** button (<kbd>F5</kbd>).

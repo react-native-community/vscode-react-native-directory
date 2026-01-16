@@ -7,13 +7,8 @@
       "request": "launch",
       "runtimeExecutable": "${execPath}",
       "preLaunchTask": "compile",
-      "args": [
-        "${workspaceFolder}",
-        "--extensionDevelopmentPath=${workspaceFolder}"
-      ],
-      "outFiles": [
-        "${workspaceFolder}/build/**"
-      ]
+      "args": ["${workspaceFolder}", "--extensionDevelopmentPath=${workspaceFolder}"],
+      "outFiles": ["${workspaceFolder}/build/**"]
     }
   ]
 }

@@ -19,10 +19,10 @@ async function pathExists(path: string) {
 
 async function hasGlobalInstallation(pm: PM): Promise<boolean> {
   return execa(pm, ['--version'])
-    .then((res) => {
+    .then(res => {
       return /^\d+.\d+.\d+$/.test(res.stdout);
     })
-    .then((value) => {
+    .then(value => {
       return value;
     })
     .catch(() => false);
@@ -33,7 +33,7 @@ async function getTypeofLockFile(cwd = '.'): Promise<PM | null> {
     pathExists(resolve(cwd, 'yarn.lock')),
     pathExists(resolve(cwd, 'pnpm-lock.yaml')),
     pathExists(resolve(cwd, 'bun.lock')),
-    pathExists(resolve(cwd, 'bun.lockb'))
+    pathExists(resolve(cwd, 'bun.lockb')),
   ]).then(([isYarn, isPnpm, isBun, isBunBinary]) => {
     if (isYarn) {
       return 'yarn';
@@ -56,7 +56,7 @@ export async function detectPackageManager({ cwd }: { cwd?: string } = {}): Prom
   const [hasYarn, hasPnpm, hasBun] = await Promise.all([
     hasGlobalInstallation('yarn'),
     hasGlobalInstallation('pnpm'),
-    hasGlobalInstallation('bun')
+    hasGlobalInstallation('bun'),
   ]);
   if (hasYarn) {
     return 'yarn';
