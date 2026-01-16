@@ -9,8 +9,5 @@
     "strict": true,
     "exactOptionalPropertyTypes": true
   },
-  "exclude": [
-    "eslint.config.ts",
-    "node_modules"
-  ]
+  "exclude": ["eslint.config.ts", "node_modules"]
 }
