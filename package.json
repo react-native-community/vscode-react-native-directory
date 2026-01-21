@@ -20,7 +20,10 @@
   },
   "icon": "./assets/icon.png",
   "activationEvents": [
-    "onCommand:extension.showQuickPick"
+    "onCommand:extension.showQuickPick",
+    "onCommand:extension.annotatePackageJsonDependencies",
+    "onCommand:extension.clearPackageJsonDependencyAnnotations",
+    "workspaceContains:package.json"
   ],
   "main": "./build/index.js",
   "contributes": {
@@ -51,8 +54,8 @@
     "conventional-changelog-conventionalcommits": "^9.1.0",
     "esbuild": "^0.27.2",
     "ovsx": "^0.10.8",
-    "oxfmt": "^0.24.0",
-    "oxlint": "^1.39.0",
+    "oxfmt": "^0.26.0",
+    "oxlint": "^1.41.0",
     "oxlint-tsgolint": "^0.11.1",
     "rimraf": "6.1.2",
     "semantic-release": "^25.0.2",

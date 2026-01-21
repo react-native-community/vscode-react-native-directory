@@ -6,5 +6,6 @@
   "bracketSameLine": true,
   "trailingComma": "es5",
   "arrowParens": "avoid",
-  "ignorePatterns": ["**/build", "**/node_modules", "package.json", "CHANGELOG.md"]
+  "experimentalSortPackageJson": false,
+  "ignorePatterns": ["**/build", "**/node_modules", "CHANGELOG.md"]
 }

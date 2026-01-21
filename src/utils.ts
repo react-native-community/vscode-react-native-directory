@@ -5,7 +5,7 @@ import { BASE_API_URL, STRINGS } from './constants';
 
 export const numberFormatter = new Intl.NumberFormat('en-EN', { notation: 'compact' });
 
-function getDetailLabel(item: PackageData) {
+export function getDetailLabel(item: PackageData, skipPlatforms = false): string {
   const platforms = getPlatformsList(item);
   return [
     `$(star) ${numberFormatter.format(item.github.stats.stars)}`,
@@ -14,8 +14,8 @@ function getDetailLabel(item: PackageData) {
     (item.dev ?? item.template) && '•',
     item.dev && '$(tools) Dev Tool',
     item.template && '$(folder-library) Template',
-    platforms.length && '•',
-    platforms.join(', '),
+    !skipPlatforms && platforms.length && '•',
+    !skipPlatforms && platforms.join(', '),
     (item.newArchitecture ?? item.expoGo) && '•',
     (item.newArchitecture ?? item.expoGo) &&
       `$(verified) New Architecture${item.newArchitecture === 'new-arch-only' ? ' only' : ''}`,

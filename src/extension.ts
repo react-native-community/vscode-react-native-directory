@@ -3,6 +3,7 @@ import { commands, env, type ExtensionContext, QuickPickItemKind, Uri, window, w
 
 import { ENTRY_OPTION, KEYWORD_REGEX, STRINGS, VALID_KEYWORDS_MAP, VERSIONS_OPTION } from './constants';
 import { detectPackageManager } from './detectPackageManager';
+import { createPackageJsonDependencyAnnotator } from './annotatePackageJson';
 import { type DirectoryEntry, type NpmRegistryData, type ValidKeyword } from './types';
 import {
   deduplicateSearchTokens,
@@ -21,6 +22,9 @@ import {
 export async function activate(context: ExtensionContext) {
   const workspacePath = workspace.workspaceFolders?.[0].uri.fsPath ?? workspace.rootPath;
   const manager = workspace.getConfiguration('npm').get<string>('packageManager', 'npm');
+
+  const annotator = createPackageJsonDependencyAnnotator();
+  context.subscriptions.push({ dispose: annotator.dispose });
 
   const shouldCheckPreferred = workspacePath && (!manager || manager === 'auto');
   const preferredManager = shouldCheckPreferred
@@ -356,5 +360,13 @@ export async function activate(context: ExtensionContext) {
     });
   });
 
-  context.subscriptions.push(disposable);
+  const annotateDisposable = commands.registerCommand('extension.annotatePackageJsonDependencies', async () => {
+    await annotator.refreshActiveEditor();
+  });
+
+  const clearAnnotateDisposable = commands.registerCommand('extension.clearPackageJsonDependencyAnnotations', () => {
+    annotator.clearActiveEditor();
+  });
+
+  context.subscriptions.push(disposable, annotateDisposable, clearAnnotateDisposable);
 }

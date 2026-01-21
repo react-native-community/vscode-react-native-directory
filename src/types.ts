@@ -1,4 +1,4 @@
-import { type QuickPickItem } from 'vscode';
+import { type Range, type QuickPickItem } from 'vscode';
 import { type VALID_KEYWORDS_MAP } from './constants';
 
 export type DirectoryEntry = QuickPickItem & PackageData;
@@ -97,6 +97,8 @@ export type APIResponseData = {
   total?: number;
 };
 
+export type APICheckResponseData = Record<string, PackageData>;
+
 export type NpmRegistryData = {
   'dist-tags': Record<string, string>;
   versions: Record<
@@ -105,4 +107,14 @@ export type NpmRegistryData = {
       version: string;
     } & Record<string, unknown>
   >;
+};
+
+export type DependencyRef = {
+  name: string;
+  anchor: Range;
+};
+
+export type PackageJSONDeps = {
+  dependencies?: Record<string, unknown>;
+  peerDependencies?: Record<string, unknown>;
 };
