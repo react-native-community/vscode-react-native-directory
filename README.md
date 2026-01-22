@@ -24,7 +24,7 @@ and performing actions related to the chosen package inside the built-in editor 
 <p align="center">
 <img alt="Search mode" src="./assets/screenshot.png" width="520" align="center" />
 <img alt="Actions list" src="./assets/screenshot-actions.png" width="520" align="center" />
-<img alt="Annotations in package.json" src="./assets/screenshot-annotations" width="640" align="center" />
+<img alt="Annotations in package.json" src="./assets/screenshot-annotations.png" width="640" align="center" />
 </p>
 
 ## ⚡️ Features
