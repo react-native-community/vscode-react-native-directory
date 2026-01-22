@@ -1,3 +1,17 @@
+## [1.6.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.5.0...1.6.0) (2026-01-22)
+
+### New features
+
+* add packages annotations in `package.json` ([625cd4a](https://github.com/react-native-community/vscode-react-native-directory/commit/625cd4aea9d7e52d039be388165ec89e1fcd57e2))
+* add setting to control `package.json` annotations ([820bd28](https://github.com/react-native-community/vscode-react-native-directory/commit/820bd28bae461ae4dfb21ec38027e30ad5c244e0))
+
+### Other changes
+
+* fix screenshot in README ([7b7b1de](https://github.com/react-native-community/vscode-react-native-directory/commit/7b7b1deb9151edee29df3c5f6e477931f0191c65))
+* migrate lint setup to Oxlint and Oxfmt ([#4](https://github.com/react-native-community/vscode-react-native-directory/issues/4)) ([77b6d3f](https://github.com/react-native-community/vscode-react-native-directory/commit/77b6d3ff794d0f750352f52012c1a021ec73082b))
+* reorganize and cleanup code ([ae6a3a6](https://github.com/react-native-community/vscode-react-native-directory/commit/ae6a3a6a8e5d336365a6e336239d33bccee73d7b))
+* updateREADME and screenshots ([41b4a5f](https://github.com/react-native-community/vscode-react-native-directory/commit/41b4a5f1ed8f4dc970b7db12a4a24c0c567c0eb0))
+
 ## [1.5.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.4.0...1.5.0) (2026-01-01)
 
 ### New features
