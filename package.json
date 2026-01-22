@@ -27,6 +27,18 @@
   ],
   "main": "./build/index.js",
   "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "React Native Directory",
+      "properties": {
+        "reactNativeDirectory.enablePackageJsonAnnotations": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Automatically annotate `package.json` dependencies with metadata from React Native Directory.",
+          "scope": "window"
+        }
+      }
+    },
     "commands": [
       {
         "command": "extension.showQuickPick",
