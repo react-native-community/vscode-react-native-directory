@@ -22,8 +22,9 @@ and performing actions related to the chosen package inside the built-in editor 
 </p>
 
 <p align="center">
-<img alt="Search mode" src="./assets/screenshot.png" width="500" align="center" />
-<img alt="Actions list" src="./assets/screenshot-actions.png" width="500" align="center" />
+<img alt="Search mode" src="./assets/screenshot.png" width="520" align="center" />
+<img alt="Actions list" src="./assets/screenshot-actions.png" width="520" align="center" />
+<img alt="Annotations in package.json" src="./assets/screenshot-annotations" width="640" align="center" />
 </p>
 
 ## ⚡️ Features
@@ -33,6 +34,11 @@ and performing actions related to the chosen package inside the built-in editor 
   - Valid tokens are a subset of all possible API query options, and the values can be seen [in this file](/src/utils.ts#L33-L55).
 - Install the selected packages in the current workspace using your preferred package manager.
 - Dive deep into the stats and analysis with the provided metadata and links.
+- Display inline annotations in the package.json file showing information and metadata from React Native Directory for each dependency.
+
+## ⚙️ Extension Settings
+
+- `reactNativeDirectory.enablePackageJsonAnnotations`: Whether or not the extension should annotate dependencies in `package.json` file.
 
 ## 📦 Installation
 
