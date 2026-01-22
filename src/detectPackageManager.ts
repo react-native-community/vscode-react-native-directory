@@ -6,7 +6,7 @@ import execa from 'execa';
 import { resolve } from 'node:path';
 import { workspace, Uri } from 'vscode';
 
-export type PM = 'npm' | 'yarn' | 'pnpm' | 'bun';
+type PM = 'npm' | 'yarn' | 'pnpm' | 'bun';
 
 async function pathExists(path: string) {
   try {

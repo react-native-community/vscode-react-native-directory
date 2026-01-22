@@ -1,15 +1,15 @@
 import {
   type DecorationOptions,
-  ThemeColor,
-  Range,
-  type TextEditor,
-  window,
-  workspace,
   type Disposable,
   MarkdownString,
+  Range,
+  type TextEditor,
+  ThemeColor,
+  window,
+  workspace,
 } from 'vscode';
 
-import { CHECK_API_URL } from './constants';
+import { BASE_API_URL } from './constants';
 import { type PackageJSONDeps, type APICheckResponseData, type DependencyRef } from './types';
 import { getCompatibilityList, getDetailLabel, getPlatformsList, numberFormatter } from './utils';
 
@@ -39,6 +39,7 @@ const ENTRY_REGEXP = /^\s*"(?<name>[^"]+)"\s*:\s*"(?<version>(?:\\\\"|[^"])*)"/;
 
 function getDependencyRefsFromPackageJsonText(text: string, editor: TextEditor): DependencyRef[] {
   const parsed = tryParsePackageJson(text);
+
   if (!parsed) {
     return [];
   }
@@ -78,7 +79,10 @@ function getDependencyRefsFromPackageJsonText(text: string, editor: TextEditor):
 }
 
 async function fetchDirectoryInfo(packagesList: string, signal: AbortSignal): Promise<APICheckResponseData | null> {
-  const response = await fetch(`${CHECK_API_URL}?name=${encodeURIComponent(packagesList)}`, { signal });
+  const apiUrl = new URL(`${BASE_API_URL}/library`);
+  apiUrl.searchParams.append('name', packagesList);
+
+  const response = await fetch(apiUrl.href, { signal });
 
   if (!response.ok) {
     return null;
@@ -87,11 +91,7 @@ async function fetchDirectoryInfo(packagesList: string, signal: AbortSignal): Pr
   return (await response.json()) as APICheckResponseData;
 }
 
-export function createPackageJsonDependencyAnnotator(): {
-  refreshActiveEditor: () => Promise<void>;
-  clearActiveEditor: () => void;
-  dispose: () => void;
-} {
+export function createPackageJsonDependencyAnnotator(): Disposable {
   const decorationType = window.createTextEditorDecorationType({
     after: {
       margin: '0 0 0 1rem',
@@ -236,5 +236,5 @@ export function createPackageJsonDependencyAnnotator(): {
 
   scheduleRefresh(0);
 
-  return { refreshActiveEditor, clearActiveEditor, dispose };
+  return { dispose };
 }

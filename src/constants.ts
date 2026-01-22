@@ -1,5 +1,4 @@
-export const BASE_API_URL = 'https://reactnative.directory/api/libraries';
-export const CHECK_API_URL = 'https://reactnative.directory/api/library';
+export const BASE_API_URL = 'https://reactnative.directory/api';
 export const KEYWORD_REGEX = /:\w+/g;
 
 export enum ENTRY_OPTION {

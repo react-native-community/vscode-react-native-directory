@@ -1,7 +1,7 @@
 import { type QuickPick, window } from 'vscode';
 
-import { type APIResponseData, type DirectoryEntry, type PackageData, type ValidKeyword } from './types';
 import { BASE_API_URL, STRINGS } from './constants';
+import { type APIResponseData, type DirectoryEntry, type PackageData, type ValidKeyword } from './types';
 
 export const numberFormatter = new Intl.NumberFormat('en-EN', { notation: 'compact' });
 
@@ -44,7 +44,7 @@ const EMPTY_RESULT = {
 
 export async function fetchData(query?: string, keywords?: ValidKeyword[]): Promise<APIResponseData> {
   try {
-    const apiUrl = new URL(BASE_API_URL);
+    const apiUrl = new URL(`${BASE_API_URL}/libraries`);
 
     if (query) {
       apiUrl.searchParams.append('search', query);
