@@ -1,3 +1,9 @@
+## [1.6.1](https://github.com/react-native-community/vscode-react-native-directory/compare/1.6.0...1.6.1) (2026-01-27)
+
+### Other changes
+
+* temporary turn off automatic GitHub release creation ([439105f](https://github.com/react-native-community/vscode-react-native-directory/commit/439105fd3ca226d220ce0799a2605baf2a0752c7))
+
 ## [1.6.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.5.0...1.6.0) (2026-01-22)
 
 ### New features
