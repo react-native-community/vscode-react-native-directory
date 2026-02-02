@@ -45,13 +45,7 @@
     "import/consistent-type-specifier-style": ["error", "prefer-inline"],
     "import/default": "error",
     "import/namespace": "error",
-    "import/no-cycle": [
-      "error",
-      {
-        "maxDepth": 3,
-        "disableScc": true
-      }
-    ],
+    "import/no-cycle": ["error", { "maxDepth": 3 }],
     "import/no-duplicates": "error",
     "import/no-named-as-default": "error",
     "import/no-named-as-default-member": "error",

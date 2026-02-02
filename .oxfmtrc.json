@@ -6,8 +6,8 @@
   "bracketSameLine": true,
   "trailingComma": "es5",
   "arrowParens": "avoid",
-  "experimentalSortPackageJson": false,
   "ignorePatterns": ["**/build", "**/node_modules", "CHANGELOG.md"],
+  "experimentalSortPackageJson": false,
   "experimentalSortImports": {
     "groups": [
       ["side-effect"],
