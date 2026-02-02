@@ -178,11 +178,18 @@ export function createPackageJsonDependencyAnnotator(): Disposable {
         tooltip.appendMarkdown(`- **Compatibility:** ${compatibility.join(', ')}\n`);
       }
 
-      if (lib.unmaintained && lib.alternatives && lib.alternatives.length > 0) {
-        tooltip.appendMarkdown(`- **Alternatives:** \`${lib.alternatives.join(', ')}\`\n`);
+      tooltip.appendMarkdown(`- **Directory score:** ${lib.score}/100\n\n`);
+
+      if (lib.github.license) {
+        tooltip.appendMarkdown(`- **License:**  ${lib.github.license.spdxId}\n\n`);
       }
 
-      tooltip.appendMarkdown(`- **Directory score:** ${lib.score}/100\n\n`);
+      if (lib.unmaintained && lib.alternatives && lib.alternatives.length > 0) {
+        tooltip.appendMarkdown(`- **Alternatives:** \`${lib.alternatives.join(', ')}\`\n\n`);
+      } else {
+        tooltip.appendMarkdown('\n');
+      }
+
       tooltip.appendMarkdown(getDetailLabel(lib, true));
       tooltip.appendMarkdown(`\n\n---\n`);
       tooltip.appendMarkdown(`[React Native Directory](https://reactnative.directory/package/${lib.npmPkg}) 🞄 `);
