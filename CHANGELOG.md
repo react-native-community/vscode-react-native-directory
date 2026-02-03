@@ -1,3 +1,13 @@
+## [1.6.2](https://github.com/react-native-community/vscode-react-native-directory/compare/1.6.1...1.6.2) (2026-02-03)
+
+### Bug fixes
+
+* add missing license information to the tooltip ([3688d85](https://github.com/react-native-community/vscode-react-native-directory/commit/3688d856a2be3546990f019e5374dd2f3875c067))
+
+### Other changes
+
+* re-enable automatic GitHub release, bum dev deps ([5d5bbbc](https://github.com/react-native-community/vscode-react-native-directory/commit/5d5bbbc75c04296a5ac48ad57c9566986afb4ccf))
+
 ## [1.6.1](https://github.com/react-native-community/vscode-react-native-directory/compare/1.6.0...1.6.1) (2026-01-27)
 
 ### Other changes
