@@ -1,3 +1,17 @@
+## [1.6.3](https://github.com/react-native-community/vscode-react-native-directory/compare/1.6.2...1.6.3) (2026-04-11)
+
+### Bug fixes
+
+* add module analysis tool link, remove legacy `template` entry code ([91b7641](https://github.com/react-native-community/vscode-react-native-directory/commit/91b7641791cf36a423fc5e6fa2fe821cb655fe1b))
+
+### Other changes
+
+* bump dev dependencies ([c52f366](https://github.com/react-native-community/vscode-react-native-directory/commit/c52f366a9dd3be2d4797610a723004583ac8a7ff))
+* bump dev dependencies ([e987112](https://github.com/react-native-community/vscode-react-native-directory/commit/e98711225108735786c5e093aee10d057a29824b))
+* bump dev dependencies, update format config ([0e6db73](https://github.com/react-native-community/vscode-react-native-directory/commit/0e6db730ce6c4ea386563e5fc1f6ba25b56e2864))
+* bump require VS Code version, update dependencies ([abd5108](https://github.com/react-native-community/vscode-react-native-directory/commit/abd5108abb057de7e6382939bc9f7f6fd1d1c111))
+* update esbuild dev dependency ([5a09f57](https://github.com/react-native-community/vscode-react-native-directory/commit/5a09f570d760f090aace9201b4d23e7eb1b66a21))
+
 ## [1.6.2](https://github.com/react-native-community/vscode-react-native-directory/compare/1.6.1...1.6.2) (2026-02-03)
 
 ### Bug fixes
