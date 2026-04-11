@@ -9,6 +9,7 @@ export enum ENTRY_OPTION {
   VISIT_REPO = 'Visit GitHub repository',
   VISIT_DIRECTORY = 'Visit React Native Directory page',
   VISIT_NPM = 'Visit npm registry entry',
+  VIEW_MODULES_INSPECTOR = 'View Node Modules Inspector analysis',
   VIEW_BUNDLEPHOBIA = 'View BundlePhobia analysis',
   VIEW_LICENSE = 'View license details',
   VIEW_DEPENDENCIES = 'View dependencies',

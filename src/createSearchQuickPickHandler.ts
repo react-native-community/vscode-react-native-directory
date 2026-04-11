@@ -103,11 +103,9 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
             `$(eye) ${numberFormatter.format(selectedEntry.github.stats.subscribers)}`,
           ].join(' '),
         },
-        !selectedEntry.template && {
+        selectedEntry.npm?.downloads && {
           label: ENTRY_OPTION.VISIT_NPM,
-          description: selectedEntry.npm?.downloads
-            ? `$(arrow-circle-down) ${numberFormatter.format(selectedEntry.npm.downloads)}`
-            : '',
+          description: `$(arrow-circle-down) ${numberFormatter.format(selectedEntry.npm.downloads)}`,
         },
         { label: ENTRY_OPTION.VISIT_DIRECTORY },
         selectedEntry.github.urls.homepage && {
@@ -122,7 +120,8 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
           label: ENTRY_OPTION.VIEW_DEPENDENCIES,
           description: `$(package) ${numberFormatter.format(selectedEntry.github.stats.dependencies)} ${pluralize('dependency', selectedEntry.github.stats.dependencies)}`,
         },
-        !selectedEntry.template && { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
+        { label: ENTRY_OPTION.VIEW_MODULES_INSPECTOR },
+        { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
         selectedEntry.nightlyProgram && { label: ENTRY_OPTION.VIEW_NIGHTLY_RESULTS },
         { label: 'details', kind: QuickPickItemKind.Separator },
         {
@@ -143,10 +142,10 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
         },
         ...examplesActions,
         { label: 'copy data', kind: QuickPickItemKind.Separator },
-        !selectedEntry.template && { label: ENTRY_OPTION.COPY_NAME },
+        { label: ENTRY_OPTION.COPY_NAME },
         { label: ENTRY_OPTION.COPY_REPO_URL },
-        !selectedEntry.template && { label: ENTRY_OPTION.COPY_NPM_URL },
-        !selectedEntry.template && { label: ENTRY_OPTION.COPY_DIRECTORY_URL },
+        { label: ENTRY_OPTION.COPY_NPM_URL },
+        { label: ENTRY_OPTION.COPY_DIRECTORY_URL },
         { label: '', kind: QuickPickItemKind.Separator },
         { label: ENTRY_OPTION.GO_BACK },
       ].filter(option => !!option && typeof option === 'object');
@@ -277,6 +276,10 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
           }
           case ENTRY_OPTION.VIEW_LICENSE: {
             env.openExternal(Uri.parse(selectedEntry.github.license.url));
+            break;
+          }
+          case ENTRY_OPTION.VIEW_MODULES_INSPECTOR: {
+            env.openExternal(Uri.parse(`https://node-modules.dev/grid/depth#install=${selectedEntry.npmPkg}`));
             break;
           }
           case ENTRY_OPTION.VIEW_BUNDLEPHOBIA: {

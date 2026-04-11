@@ -11,9 +11,8 @@ export function getDetailLabel(item: PackageData, skipPlatforms = false): string
     `$(star) ${numberFormatter.format(item.github.stats.stars)}`,
     `$(gist-fork) ${numberFormatter.format(item.github.stats.forks)}`,
     item.npm?.downloads && `$(arrow-circle-down) ${numberFormatter.format(item.npm.downloads)}`,
-    (item.dev ?? item.template) && '•',
+    item.dev && '•',
     item.dev && '$(tools) Dev Tool',
-    item.template && '$(folder-library) Template',
     !skipPlatforms && platforms.length && '•',
     !skipPlatforms && platforms.join(', '),
     (item.newArchitecture ?? item.expoGo) && '•',
@@ -138,9 +137,7 @@ export async function openListWithSearch(
 }
 
 export function getEntryTypeLabel(entry: DirectoryEntry): string {
-  if (entry.template) {
-    return ' template';
-  } else if (entry.dev) {
+  if (entry.dev) {
     return ' development tool';
   }
   return 'library';
