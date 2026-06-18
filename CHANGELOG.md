@@ -1,3 +1,14 @@
+## [1.7.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.6.3...1.7.0) (2026-06-18)
+
+### New features
+
+* add HarmonyOS compatibility info ([1e4025d](https://github.com/react-native-community/vscode-react-native-directory/commit/1e4025ddd0c6cc75f436dbe9145117a53d49892b))
+
+### Other changes
+
+* update dev dependencies ([b42c121](https://github.com/react-native-community/vscode-react-native-directory/commit/b42c1214c94ea6df389e5bd4f03c12fd86b60ef5))
+* update dev dependencies ([cf9a6d3](https://github.com/react-native-community/vscode-react-native-directory/commit/cf9a6d3b440099cc29d6a0edf2a416821e86c99c))
+
 ## [1.6.3](https://github.com/react-native-community/vscode-react-native-directory/compare/1.6.2...1.6.3) (2026-04-11)
 
 ### Bug fixes
