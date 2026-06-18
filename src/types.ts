@@ -22,6 +22,7 @@ export type PackageData = {
   tvos?: boolean;
   visionos?: boolean;
   horizon?: boolean;
+  harmony?: boolean | string;
   vegaos?: boolean | string;
   unmaintained?: boolean;
   dev?: boolean;

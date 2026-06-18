@@ -99,6 +99,7 @@ export function getCompatibilityList(item: PackageData): string[] {
   return [
     item.expoGo ? 'Expo Go' : null,
     item.fireos ? 'FireOS' : null,
+    item.harmony ? 'HarmonyOS' : null,
     item.horizon ? 'Meta Horizon OS' : null,
     item.vegaos ? 'Vega OS' : null,
   ].filter(entry => entry !== null);

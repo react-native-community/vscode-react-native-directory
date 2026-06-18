@@ -49,6 +49,7 @@ export const VALID_KEYWORDS_MAP = {
   tvos: 'tvos',
   visionos: 'visionos',
   vegaos: 'vegaos',
+  harmony: 'harmony',
   web: 'web',
   windows: 'windows',
   hasexample: 'hasExample',
