@@ -10,7 +10,7 @@ import {
 } from 'vscode';
 
 import { BASE_API_URL } from './constants';
-import { type PackageJSONDeps, type APICheckResponseData, type DependencyRef } from './types';
+import { type APICheckResponseData, type DependencyRef, type PackageJSONDeps } from './types';
 import { getCompatibilityList, getDetailLabel, getPlatformsList, numberFormatter } from './utils';
 
 function tryParsePackageJson(text: string): PackageJSONDeps | null {

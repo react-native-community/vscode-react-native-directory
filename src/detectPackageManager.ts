@@ -4,7 +4,7 @@
  */
 import execa from 'execa';
 import { resolve } from 'node:path';
-import { workspace, Uri } from 'vscode';
+import { Uri, workspace } from 'vscode';
 
 type PM = 'npm' | 'yarn' | 'pnpm' | 'bun';
 

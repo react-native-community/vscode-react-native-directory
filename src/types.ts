@@ -1,4 +1,4 @@
-import { type Range, type QuickPickItem } from 'vscode';
+import { type QuickPickItem, type Range } from 'vscode';
 
 import { type VALID_KEYWORDS_MAP } from './constants';
 

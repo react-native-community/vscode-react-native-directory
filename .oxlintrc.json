@@ -3,22 +3,12 @@
   "plugins": ["import", "promise", "typescript", "unicorn"],
   "ignorePatterns": ["**/build", "**/node_modules"],
   "rules": {
+    "branches-sharing-code": "error",
     "curly": "error",
-    "eqeqeq": [
-      "error",
-      "always",
-      {
-        "null": "ignore"
-      }
-    ],
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
     "func-style": ["error", "declaration"],
-    "no-unused-expressions": [
-      "error",
-      {
-        "allowShortCircuit": true,
-        "enforceForJSX": true
-      }
-    ],
+    "object-shorthand": "error",
+    "no-unused-expressions": ["error", { "allowShortCircuit": true, "enforceForJSX": true }],
     "no-unused-vars": [
       "error",
       {
@@ -33,15 +23,11 @@
     "no-useless-concat": "error",
     "no-useless-constructor": "error",
     "no-useless-return": "error",
-    "no-void": [
-      "error",
-      {
-        "allowAsStatement": true
-      }
-    ],
+    "no-void": ["error", { "allowAsStatement": true }],
     "prefer-promise-reject-errors": "error",
     "prefer-rest-params": "error",
     "prefer-spread": "error",
+    "sort-imports": ["error", { "allowSeparatedGroups": true, "ignoreDeclarationSort": true, "ignoreCase": true }],
     "import/consistent-type-specifier-style": ["error", "prefer-inline"],
     "import/default": "error",
     "import/namespace": "error",
@@ -63,25 +49,25 @@
         "ts-nocheck": true
       }
     ],
-    "typescript/consistent-type-imports": [
-      "error",
-      {
-        "fixStyle": "inline-type-imports"
-      }
-    ],
+    "typescript/consistent-indexed-object-style": ["error", "record"],
+    "typescript/consistent-type-imports": ["error", { "fixStyle": "inline-type-imports" }],
+    "typescript/no-array-delete": "error",
     "typescript/no-confusing-non-null-assertion": "error",
+    "typescript/no-confusing-void-expression": ["error", { "ignoreArrowShorthand": true }],
+    "typescript/no-duplicate-type-constituents": "error",
     "typescript/no-extra-non-null-assertion": "error",
-    "typescript/no-misused-promises": [
-      "error",
-      {
-        "checksVoidReturn": false
-      }
-    ],
+    "typescript/no-floating-promises": "error",
+    "typescript/no-for-in-array": "error",
+    "typescript/no-inferrable-types": "error",
+    "typescript/no-meaningless-void-operator": "error",
+    "typescript/no-misused-promises": ["error", { "checksVoidReturn": false }],
     "typescript/no-restricted-types": "error",
     "typescript/no-unnecessary-boolean-literal-compare": "error",
+    "typescript/no-unnecessary-parameter-property-assignment": "error",
     "typescript/no-unnecessary-type-arguments": "error",
     "typescript/no-unnecessary-type-assertion": "error",
     "typescript/no-unnecessary-type-constraint": "error",
+    "typescript/no-unsafe-enum-comparison": "error",
     "typescript/prefer-includes": "error",
     "typescript/prefer-nullish-coalescing": "error",
     "typescript/prefer-readonly": "error",
@@ -97,6 +83,7 @@
     "unicorn/no-object-as-default-parameter": "error",
     "unicorn/no-unnecessary-array-splice-count": "error",
     "unicorn/no-useless-collection-argument": "error",
+    "unicorn/no-useless-iterator-to-array": "error",
     "unicorn/numeric-separators-style": "error",
     "unicorn/prefer-array-find": "error",
     "unicorn/prefer-array-flat": "error",

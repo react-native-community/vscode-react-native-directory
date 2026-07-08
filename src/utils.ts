@@ -144,7 +144,7 @@ export function getEntryTypeLabel(entry: DirectoryEntry): string {
   return 'library';
 }
 
-export function getMatchesCountLabel(count: number = 0): string {
+export function getMatchesCountLabel(count = 0): string {
   return `${numberFormatter.format(count)} ${pluralize('match', count)}`;
 }
 

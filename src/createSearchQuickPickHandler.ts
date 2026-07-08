@@ -162,8 +162,9 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
 
       optionPick.onDidAccept(async () => {
         const selectedAction = optionPick.selectedItems[0];
+        const selectedActionLabel = selectedAction.label as ENTRY_OPTION;
 
-        switch (selectedAction.label) {
+        switch (selectedActionLabel) {
           case ENTRY_OPTION.INSTALL: {
             optionPick.busy = true;
 
@@ -194,7 +195,7 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
             const response = await fetch(apiUrl.href);
 
             if (!response.ok) {
-              window.showErrorMessage(`Cannot fetch package versions from npm registry`);
+              await window.showErrorMessage(`Cannot fetch package versions from npm registry`);
               versionPick.hide();
               setupAndShowEntryPicker();
               return;
@@ -221,7 +222,7 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
               versionPick.onDidAccept(async () => {
                 const selectedVersion = versionPick.selectedItems[0];
 
-                if (selectedVersion.label === VERSIONS_OPTION.CANCEL) {
+                if ((selectedVersion.label as VERSIONS_OPTION) === VERSIONS_OPTION.CANCEL) {
                   versionPick.hide();
                   setupAndShowEntryPicker();
                   return;
@@ -249,7 +250,7 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
                 );
               });
             } else {
-              window.showErrorMessage(`Recieved incorrect response from npm registry`);
+              await window.showErrorMessage(`Recieved incorrect response from npm registry`);
               versionPick.hide();
               setupAndShowEntryPicker();
             }
@@ -258,36 +259,36 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
           }
           case ENTRY_OPTION.VISIT_HOMEPAGE: {
             if (selectedEntry.github.urls.homepage) {
-              env.openExternal(Uri.parse(selectedEntry.github.urls.homepage));
+              await env.openExternal(Uri.parse(selectedEntry.github.urls.homepage));
             }
             break;
           }
           case ENTRY_OPTION.VISIT_REPO: {
-            env.openExternal(Uri.parse(selectedEntry.githubUrl));
+            await env.openExternal(Uri.parse(selectedEntry.githubUrl));
             break;
           }
           case ENTRY_OPTION.VISIT_NPM: {
-            env.openExternal(Uri.parse(`https://www.npmjs.com/package/${selectedEntry.npmPkg}`));
+            await env.openExternal(Uri.parse(`https://www.npmjs.com/package/${selectedEntry.npmPkg}`));
             break;
           }
           case ENTRY_OPTION.VISIT_DIRECTORY: {
-            env.openExternal(Uri.parse(`https://reactnative.directory/package/${selectedEntry.npmPkg}`));
+            await env.openExternal(Uri.parse(`https://reactnative.directory/package/${selectedEntry.npmPkg}`));
             break;
           }
           case ENTRY_OPTION.VIEW_LICENSE: {
-            env.openExternal(Uri.parse(selectedEntry.github.license.url));
+            await env.openExternal(Uri.parse(selectedEntry.github.license.url));
             break;
           }
           case ENTRY_OPTION.VIEW_MODULES_INSPECTOR: {
-            env.openExternal(Uri.parse(`https://node-modules.dev/grid/depth#install=${selectedEntry.npmPkg}`));
+            await env.openExternal(Uri.parse(`https://node-modules.dev/grid/depth#install=${selectedEntry.npmPkg}`));
             break;
           }
           case ENTRY_OPTION.VIEW_BUNDLEPHOBIA: {
-            env.openExternal(Uri.parse(`https://bundlephobia.com/package/${selectedEntry.npmPkg}`));
+            await env.openExternal(Uri.parse(`https://bundlephobia.com/package/${selectedEntry.npmPkg}`));
             break;
           }
           case ENTRY_OPTION.VIEW_NIGHTLY_RESULTS: {
-            env.openExternal(Uri.parse(`https://react-native-community.github.io/nightly-tests/`));
+            await env.openExternal(Uri.parse(`https://react-native-community.github.io/nightly-tests/`));
             break;
           }
           case ENTRY_OPTION.PLATFORMS: {
@@ -301,23 +302,23 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
             break;
           }
           case ENTRY_OPTION.COPY_NAME: {
-            env.clipboard.writeText(selectedEntry.npmPkg);
-            window.showInformationMessage('Package name copied to clipboard');
+            await env.clipboard.writeText(selectedEntry.npmPkg);
+            await window.showInformationMessage('Package name copied to clipboard');
             break;
           }
           case ENTRY_OPTION.COPY_REPO_URL: {
-            env.clipboard.writeText(selectedEntry.githubUrl);
-            window.showInformationMessage('Repository URL copied to clipboard');
+            await env.clipboard.writeText(selectedEntry.githubUrl);
+            await window.showInformationMessage('Repository URL copied to clipboard');
             break;
           }
           case ENTRY_OPTION.COPY_NPM_URL: {
-            env.clipboard.writeText(`https://www.npmjs.com/package/${selectedEntry.npmPkg}`);
-            window.showInformationMessage('npm registry URL copied to clipboard');
+            await env.clipboard.writeText(`https://www.npmjs.com/package/${selectedEntry.npmPkg}`);
+            await window.showInformationMessage('npm registry URL copied to clipboard');
             break;
           }
           case ENTRY_OPTION.COPY_DIRECTORY_URL: {
-            env.clipboard.writeText(`https://reactnative.directory/package/${selectedEntry.npmPkg}`);
-            window.showInformationMessage('React Native Directory page URL copied to clipboard');
+            await env.clipboard.writeText(`https://reactnative.directory/package/${selectedEntry.npmPkg}`);
+            await window.showInformationMessage('React Native Directory page URL copied to clipboard');
             break;
           }
           case ENTRY_OPTION.GO_BACK: {
@@ -325,12 +326,14 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
             break;
           }
           case ENTRY_OPTION.VIEW_DEPENDENCIES: {
-            env.openExternal(Uri.parse(`https://www.npmjs.com/package/${selectedEntry.npmPkg}?activeTab=dependencies`));
+            await env.openExternal(
+              Uri.parse(`https://www.npmjs.com/package/${selectedEntry.npmPkg}?activeTab=dependencies`)
+            );
             break;
           }
           case ENTRY_OPTION.CONFIG_PLUGIN: {
             if (typeof selectedEntry.configPlugin === 'string') {
-              env.openExternal(Uri.parse(selectedEntry.configPlugin));
+              await env.openExternal(Uri.parse(selectedEntry.configPlugin));
             } else {
               const searchValue = deduplicateSearchTokens(packagesPick.value, ['configPlugin']);
               await openListWithSearch(packagesPick, searchValue);
@@ -338,12 +341,12 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
             break;
           }
           case ENTRY_OPTION.DIRECTORY_SCORE: {
-            env.openExternal(Uri.parse(`https://reactnative.directory/package/${selectedEntry.npmPkg}/score`));
+            await env.openExternal(Uri.parse(`https://reactnative.directory/package/${selectedEntry.npmPkg}/score`));
             break;
           }
         }
 
-        if (selectedAction.label !== ENTRY_OPTION.INSTALL) {
+        if (selectedActionLabel !== ENTRY_OPTION.INSTALL) {
           optionPick.hide();
         }
       });
