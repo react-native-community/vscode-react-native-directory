@@ -72,7 +72,7 @@
     "oxlint-plugin-golden": "^0.1.2",
     "oxlint-tsgolint": "^7.0.2007",
     "rimraf": "6.1.4",
-    "semantic-release": "^25.0.9",
+    "semantic-release": "^26.0.1",
     "typescript": "^7.0.2"
   }
 }
