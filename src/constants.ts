@@ -22,6 +22,7 @@ export enum ENTRY_OPTION {
   PLATFORMS = 'Platforms',
   COMPATIBILITY = 'Compatibility',
   CONFIG_PLUGIN = 'Config plugin',
+  NEW_ARCHITECTURE = 'New Architecture',
   METADATA = 'Metadata',
   DIRECTORY_SCORE = 'Directory score',
 }

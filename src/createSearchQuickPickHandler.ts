@@ -134,6 +134,17 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
           label: ENTRY_OPTION.COMPATIBILITY,
           description: compatibilityList.join(', '),
         },
+        {
+          label: ENTRY_OPTION.NEW_ARCHITECTURE,
+          description:
+            selectedEntry.newArchitecture === undefined
+              ? 'Compatibility unknown'
+              : selectedEntry.newArchitecture
+                ? selectedEntry.newArchitecture === 'new-arch-only'
+                  ? '$(verified) Required'
+                  : '$(verified) Supported'
+                : 'Unsupported',
+        },
         selectedEntry.configPlugin && {
           label: ENTRY_OPTION.CONFIG_PLUGIN,
           description: typeof selectedEntry.configPlugin === 'string' ? selectedEntry.configPlugin : 'Included',
