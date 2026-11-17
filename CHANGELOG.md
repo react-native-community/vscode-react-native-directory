@@ -1,3 +1,19 @@
+## [1.8.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.7.0...1.8.0) (2026-11-17)
+
+### New features
+
+* add module type, combine metadata in details ([8607742](https://github.com/react-native-community/vscode-react-native-directory/commit/860774211bd9fe17a393a21a3c5251f91c8fe43f))
+* add swiftPM filter and list support in the details ([f85adca](https://github.com/react-native-community/vscode-react-native-directory/commit/f85adca452482ae2a4194b5b1417bfef654768ac))
+* list new architecture status in details ([93c021d](https://github.com/react-native-community/vscode-react-native-directory/commit/93c021dcc54cdd387b5fe324d53a748f607716db))
+
+### Other changes
+
+* bump Node on CI for semantic-release ([beef225](https://github.com/react-native-community/vscode-react-native-directory/commit/beef225b719b47f9da0977243e876b3e102ece6a))
+* bump semantic-release ([2ca9119](https://github.com/react-native-community/vscode-react-native-directory/commit/2ca91197c46f260da5707a4201aee54ad5aa37be))
+* update dev dependencies ([88f13d1](https://github.com/react-native-community/vscode-react-native-directory/commit/88f13d11af433baa5bdbf3d810f4241703939e84))
+* update lint stack, dependencies, fix new warnings ([eb44dc5](https://github.com/react-native-community/vscode-react-native-directory/commit/eb44dc55ae527d7ef115933264bb06292a96d85d))
+* update lint stack, fix new warnings ([f8c5148](https://github.com/react-native-community/vscode-react-native-directory/commit/f8c51482819d0923714726176cac2676e57e0a46))
+
 ## [1.7.0](https://github.com/react-native-community/vscode-react-native-directory/compare/1.6.3...1.7.0) (2026-06-18)
 
 ### New features
