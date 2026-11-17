@@ -22,6 +22,7 @@ export enum ENTRY_OPTION {
   PLATFORMS = 'Platforms',
   COMPATIBILITY = 'Compatibility',
   CONFIG_PLUGIN = 'Config plugin',
+  SWIFT_PACKAGE_MANAGER = 'Swift Package Manager',
   DIRECTORY_SCORE = 'Directory score',
 }
 
@@ -54,6 +55,7 @@ export const VALID_KEYWORDS_MAP = {
   windows: 'windows',
   hasexample: 'hasExample',
   hasimage: 'hasImage',
+  hasswiftpm: 'hasSwiftPM',
   hastypes: 'hasTypes',
   ismaintained: 'isMaintained',
   ispopular: 'isPopular',

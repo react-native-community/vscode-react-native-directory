@@ -40,6 +40,7 @@ export type PackageData = {
     registry?: string;
     topics?: string[];
     hasTypes?: boolean;
+    hasSwiftPM?: boolean;
     newArchitecture?: boolean;
     isArchived?: boolean;
     isPrivate?: boolean;

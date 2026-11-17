@@ -85,6 +85,8 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
       const platformsList = getPlatformsList(selectedEntry);
       const compatibilityList = getCompatibilityList(selectedEntry);
 
+      console.warn(selectedEntry);
+
       const possibleActions = [
         workspacePath && {
           label: ENTRY_OPTION.INSTALL,
@@ -135,6 +137,10 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
         selectedEntry.configPlugin && {
           label: ENTRY_OPTION.CONFIG_PLUGIN,
           description: typeof selectedEntry.configPlugin === 'string' ? selectedEntry.configPlugin : 'included',
+        },
+        selectedEntry.github.hasSwiftPM && {
+          label: ENTRY_OPTION.SWIFT_PACKAGE_MANAGER,
+          description: 'supported',
         },
         {
           label: ENTRY_OPTION.DIRECTORY_SCORE,
@@ -338,6 +344,11 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
               const searchValue = deduplicateSearchTokens(packagesPick.value, ['configPlugin']);
               await openListWithSearch(packagesPick, searchValue);
             }
+            break;
+          }
+          case ENTRY_OPTION.SWIFT_PACKAGE_MANAGER: {
+            const searchValue = deduplicateSearchTokens(packagesPick.value, ['hasSwiftPM']);
+            await openListWithSearch(packagesPick, searchValue);
             break;
           }
           case ENTRY_OPTION.DIRECTORY_SCORE: {

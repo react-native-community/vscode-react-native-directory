@@ -30,8 +30,8 @@ and performing actions related to the chosen package inside the built-in editor 
 ## ⚡️ Features
 
 - Search through the packages registered in the React Native Directory.
-- Narrow down the results by using filter tokens, such as `:ios`, `:newArchitecture`, or `:hasTypes`.
-  - Valid tokens are a subset of all possible API query options, and the values can be seen [in this file](/src/utils.ts#L33-L55).
+- Narrow down the results by using filter tokens, such as `:ios`, `:newArchitecture`, `:hasTypes`, or `:hasSwiftPM`.
+  - Valid tokens are a subset of all possible API query options, and the mapping can be seen [in this file](./src/constants.ts).
 - Install the selected packages in the current workspace using your preferred package manager.
 - Dive deep into the stats and analysis with the provided metadata and links.
 - Display inline annotations in the package.json file showing information and metadata from React Native Directory for each dependency.
