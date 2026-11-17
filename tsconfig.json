@@ -7,7 +7,9 @@
     "esModuleInterop": true,
     "sourceMap": false,
     "strict": true,
-    "exactOptionalPropertyTypes": true
+    "exactOptionalPropertyTypes": true,
+    "skipLibCheck": true,
+    "types": ["node"]
   },
   "exclude": ["eslint.config.ts", "node_modules"]
 }

@@ -2,11 +2,14 @@
  * The original form of this code comes from the https://github.com/egoist/detect-package-manager package.
  * It has been adjusted for VS Code usage, and support for non-binary Bun lock has been added.
  */
-import execa from 'execa';
+import { execFile } from 'node:child_process';
 import { resolve } from 'node:path';
+import { promisify } from 'node:util';
 import { Uri, workspace } from 'vscode';
 
 type PM = 'npm' | 'yarn' | 'pnpm' | 'bun';
+
+const execFileAsync = promisify(execFile);
 
 async function pathExists(path: string) {
   try {
@@ -18,14 +21,12 @@ async function pathExists(path: string) {
 }
 
 async function hasGlobalInstallation(pm: PM): Promise<boolean> {
-  return execa(pm, ['--version'])
-    .then(res => {
-      return /^\d+.\d+.\d+$/.test(res.stdout);
-    })
-    .then(value => {
-      return value;
-    })
-    .catch(() => false);
+  try {
+    const { stdout } = await execFileAsync(pm, ['--version']);
+    return /^\d+.\d+.\d+$/.test(stdout.trim());
+  } catch {
+    return false;
+  }
 }
 
 async function getTypeofLockFile(cwd = '.'): Promise<PM | null> {

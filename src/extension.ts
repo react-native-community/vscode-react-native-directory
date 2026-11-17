@@ -24,17 +24,21 @@ export async function activate(context: ExtensionContext) {
   let annotatorDisposable: Disposable | undefined;
 
   function enableAnnotator() {
-    if (!annotatorDisposable) {
-      annotatorDisposable = createPackageJsonDependencyAnnotator();
-      context.subscriptions.push(annotatorDisposable);
+    if (annotatorDisposable) {
+      return;
     }
+
+    annotatorDisposable = createPackageJsonDependencyAnnotator();
+    context.subscriptions.push(annotatorDisposable);
   }
 
   function disableAnnotator() {
-    if (annotatorDisposable) {
-      annotatorDisposable.dispose();
-      annotatorDisposable = undefined;
+    if (!annotatorDisposable) {
+      return;
     }
+
+    annotatorDisposable.dispose();
+    annotatorDisposable = undefined;
   }
 
   if (annotatePackageJson) {
@@ -42,13 +46,15 @@ export async function activate(context: ExtensionContext) {
   }
 
   const configChangeDisposable = workspace.onDidChangeConfiguration(event => {
-    if (event.affectsConfiguration(`${CONFIG_KEY}.enablePackageJsonAnnotations`)) {
-      const enabled = workspace.getConfiguration(CONFIG_KEY).get<boolean>('enablePackageJsonAnnotations') ?? true;
-      if (enabled) {
-        enableAnnotator();
-      } else {
-        disableAnnotator();
-      }
+    if (!event.affectsConfiguration(`${CONFIG_KEY}.enablePackageJsonAnnotations`)) {
+      return;
+    }
+
+    const enabled = workspace.getConfiguration(CONFIG_KEY).get<boolean>('enablePackageJsonAnnotations') ?? true;
+    if (enabled) {
+      enableAnnotator();
+    } else {
+      disableAnnotator();
     }
   });
 
