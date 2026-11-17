@@ -22,7 +22,7 @@ export enum ENTRY_OPTION {
   PLATFORMS = 'Platforms',
   COMPATIBILITY = 'Compatibility',
   CONFIG_PLUGIN = 'Config plugin',
-  SWIFT_PACKAGE_MANAGER = 'Swift Package Manager',
+  METADATA = 'Metadata',
   DIRECTORY_SCORE = 'Directory score',
 }
 

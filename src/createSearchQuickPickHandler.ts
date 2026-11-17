@@ -4,6 +4,7 @@ import { env, QuickPickItemKind, Uri, window } from 'vscode';
 import { ENTRY_OPTION, KEYWORD_REGEX, STRINGS, VALID_KEYWORDS_MAP, VERSIONS_OPTION } from './constants';
 import { type DirectoryEntry, type NpmRegistryData, type ValidKeyword } from './types';
 import {
+  capitalize,
   deduplicateSearchTokens,
   fetchData,
   getCommandToRun,
@@ -70,6 +71,7 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
 
     packagesPick.onDidAccept(() => {
       const selectedEntry = packagesPick.selectedItems[0];
+      const { github, npm } = selectedEntry;
 
       const examplesActions =
         selectedEntry.examples && selectedEntry.examples.length > 0
@@ -85,8 +87,6 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
       const platformsList = getPlatformsList(selectedEntry);
       const compatibilityList = getCompatibilityList(selectedEntry);
 
-      console.warn(selectedEntry);
-
       const possibleActions = [
         workspacePath && {
           label: ENTRY_OPTION.INSTALL,
@@ -100,27 +100,27 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
         {
           label: ENTRY_OPTION.VISIT_REPO,
           description: [
-            `$(star) ${numberFormatter.format(selectedEntry.github.stats.stars)}`,
-            `$(gist-fork) ${numberFormatter.format(selectedEntry.github.stats.forks)}`,
-            `$(eye) ${numberFormatter.format(selectedEntry.github.stats.subscribers)}`,
+            `$(star) ${numberFormatter.format(github.stats.stars)}`,
+            `$(gist-fork) ${numberFormatter.format(github.stats.forks)}`,
+            `$(eye) ${numberFormatter.format(github.stats.subscribers)}`,
           ].join(' '),
         },
-        selectedEntry.npm?.downloads && {
+        npm?.downloads && {
           label: ENTRY_OPTION.VISIT_NPM,
-          description: `$(arrow-circle-down) ${numberFormatter.format(selectedEntry.npm.downloads)}`,
+          description: `$(arrow-circle-down) ${numberFormatter.format(npm.downloads)}`,
         },
         { label: ENTRY_OPTION.VISIT_DIRECTORY },
-        selectedEntry.github.urls.homepage && {
+        github.urls.homepage && {
           label: ENTRY_OPTION.VISIT_HOMEPAGE,
-          description: selectedEntry.github.urls.homepage,
+          description: github.urls.homepage,
         },
-        selectedEntry.github.license && {
+        github.license && {
           label: ENTRY_OPTION.VIEW_LICENSE,
-          description: selectedEntry.github.license.name,
+          description: github.license.name,
         },
-        selectedEntry.github.stats.dependencies !== undefined && {
+        github.stats.dependencies !== undefined && {
           label: ENTRY_OPTION.VIEW_DEPENDENCIES,
-          description: `$(package) ${numberFormatter.format(selectedEntry.github.stats.dependencies)} ${pluralize('dependency', selectedEntry.github.stats.dependencies)}`,
+          description: `$(package) ${numberFormatter.format(github.stats.dependencies)} ${pluralize('dependency', github.stats.dependencies)}`,
         },
         { label: ENTRY_OPTION.VIEW_MODULES_INSPECTOR },
         { label: ENTRY_OPTION.VIEW_BUNDLEPHOBIA },
@@ -136,15 +136,20 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
         },
         selectedEntry.configPlugin && {
           label: ENTRY_OPTION.CONFIG_PLUGIN,
-          description: typeof selectedEntry.configPlugin === 'string' ? selectedEntry.configPlugin : 'included',
+          description: typeof selectedEntry.configPlugin === 'string' ? selectedEntry.configPlugin : 'Included',
         },
-        selectedEntry.github.hasSwiftPM && {
-          label: ENTRY_OPTION.SWIFT_PACKAGE_MANAGER,
-          description: 'supported',
+        (github.moduleType || github.hasSwiftPM) && {
+          label: ENTRY_OPTION.METADATA,
+          description:
+            (github.moduleType ? `$(briefcase) ${capitalize(github.moduleType)} Module` : '') +
+            (github.moduleType && github.hasSwiftPM ? ' • ' : '') +
+            (github.hasSwiftPM ? '$(extensions) Swift Package Manager' : '') +
+            ((github.moduleType || github.hasSwiftPM) && github.hasTypes ? ' • ' : '') +
+            (github.hasTypes ? `$(symbol-type-parameter) Types` : ''),
         },
         {
           label: ENTRY_OPTION.DIRECTORY_SCORE,
-          description: `$(${selectedEntry.score >= 100 ? 'verified-filled' : 'verified'}) ${selectedEntry.score}/100`,
+          description: `$(dashboard) ${selectedEntry.score}/100`,
         },
         ...examplesActions,
         { label: 'copy data', kind: QuickPickItemKind.Separator },
@@ -344,11 +349,6 @@ export function createSearchQuickPickHandler(preferredManager: string, workspace
               const searchValue = deduplicateSearchTokens(packagesPick.value, ['configPlugin']);
               await openListWithSearch(packagesPick, searchValue);
             }
-            break;
-          }
-          case ENTRY_OPTION.SWIFT_PACKAGE_MANAGER: {
-            const searchValue = deduplicateSearchTokens(packagesPick.value, ['hasSwiftPM']);
-            await openListWithSearch(packagesPick, searchValue);
             break;
           }
           case ENTRY_OPTION.DIRECTORY_SCORE: {

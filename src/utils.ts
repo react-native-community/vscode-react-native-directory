@@ -167,3 +167,10 @@ export function pluralize(word: string, count: number) {
 
   return `${word}s`;
 }
+
+export function capitalize(word: string): string {
+  if (!word) {
+    return '';
+  }
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}

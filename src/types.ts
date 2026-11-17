@@ -6,6 +6,8 @@ export type DirectoryEntry = QuickPickItem & PackageData;
 
 export type ValidKeyword = keyof typeof VALID_KEYWORDS_MAP;
 
+export type ModuleType = 'expo' | 'nitro' | 'turbo';
+
 /**
  * Mirror of React Native Directory library type.
  * @see https://github.com/react-native-community/directory/blob/main/types/index.ts#L41
@@ -47,7 +49,7 @@ export type PackageData = {
     hasNativeCode: boolean;
     hasReadme?: boolean;
     configPlugin?: boolean;
-    moduleType?: 'expo' | 'nitro' | 'turbo';
+    moduleType?: ModuleType;
     urls: {
       repo: string;
       homepage?: string | null;
